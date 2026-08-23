@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model artworks {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String
+  date        DateTime @db.Date
+  image_url   String
+}
+
+model products {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(50)
+  price       Decimal @db.Decimal(10, 2)
+  description String?
+  image_url   String
+}
+
+model artist {
+  id        Int     @id @default(autoincrement())
+  name      String  @db.VarChar(100)
+  biography String?
+  image_url String? @db.VarChar
+}
+
+model unique_user {
+  id       Int    @id(map: "artists_pkey") @default(autoincrement())
+  name     String @db.VarChar(40)
+  lastname String @db.VarChar(40)
+  email    String @unique(map: "artists_email_key") @db.VarChar(255)
+  password String @db.VarChar(255)
+}
