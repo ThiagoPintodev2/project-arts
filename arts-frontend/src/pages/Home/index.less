@@ -19,7 +19,44 @@
 
   &__logo {
     color: @colorSerenity;
-    font-family: @fontFamily;
+    font-family: sans-serif;
     font-size: 45px;
+  }
+}
+
+.home-carousel {
+  &__slide {
+    display: flex;
+    align-items: center;
+  }
+
+  &__content {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 650px;
+    color: #fff;
+    line-height: 160px;
+    text-align: center;
+    padding: 0 250px;
+  }
+
+  &__row {
+    display: flex;
+    gap: 100px;
+  }
+
+  &__image {
+    width: 40%;
+    margin-top: 100px;
+    border-radius: 10px;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    text-align: start;
   }
 }
