@@ -42,7 +42,7 @@ function Home() {
           <Tabs defaultActiveKey="1" items={items} />
         </div>
       </header>
-      <Carousel>
+      <Carousel arrows>
         <div className='home-carousel__slide'>
           <div className='home-carousel__content'>
             <div className='home-carousel__row'>

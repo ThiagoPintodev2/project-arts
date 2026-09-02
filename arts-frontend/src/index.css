@@ -6,18 +6,18 @@
 
 body {
   background-color: var(--color-depth);
+  font-family: "Open Sans", sans-serif;
 }
 
 :root {
-  --page-gutter: 250px;
+  --page-gutter: 200px;
   --color-depth: #264559;
   --color-anchor: #101a24;
   --color-depth: #264559
 }
 
 .page-inner {
-  padding-inline: var(--page-gutter);
-  width: 100%;
+  margin-inline: var(--page-gutter);
 }
 
 .site-header,

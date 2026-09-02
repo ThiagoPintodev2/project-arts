@@ -51,6 +51,10 @@
   &__image {
     width: 50%;
     border-radius: 10px;
+
+    @media(max-width: @xl) {
+      width: 100%;
+    }
   }
 
   &__text {
@@ -76,6 +80,11 @@
     font-weight: 600;
     line-height: 1.15;
     color: #e8eef0;
+
+    
+    @media(max-width: @xxl) {
+      font-size: 30px;
+    }
   }
 
   &__description {

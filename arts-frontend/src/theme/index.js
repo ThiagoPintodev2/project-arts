@@ -27,6 +27,11 @@ const theme = {
       borderRadiusLG: 12,
     },
 
+    Carousel: {
+      arrowSize: 32,
+      arrowOffset: 40,
+    },
+
     Modal: {
       borderRadiusLG: 16,
     },
