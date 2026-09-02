@@ -5,15 +5,16 @@ import {
   getArtworkById,
   updateArtwork,
   deleteArtwork,
-  getBiographyOfArtist
+  getBiographyOfArtist,
+  getDatasOfHeroSlide
 } from "../controllers/artworkController.js";
 
 const router = express.Router();
 
+// buscar dados do carousel
+router.get('/', getDatasOfHeroSlide);
 // Criar obra
 router.post("/", createArtwork);
-// Listar obras
-router.get("/", getArtworks);
 // Info do artista
 router.get("/biography", getBiographyOfArtist);
 // Buscar uma obra pelo id
@@ -22,6 +23,5 @@ router.get("/:id", getArtworkById);
 router.put("/:id", updateArtwork);
 // Deletar obra
 router.delete("/:id", deleteArtwork);
-
 
 export default router;

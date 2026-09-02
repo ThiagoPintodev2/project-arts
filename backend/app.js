@@ -6,7 +6,7 @@ import artworkRoutes from "./src/routes/artworkRoutes.js";
 const app = express();
 app.use(express.json());
 
-app.use("/artworks", artworkRoutes);
+app.use("/", artworkRoutes);
 
 
 app.listen(8081, () => {

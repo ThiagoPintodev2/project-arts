@@ -37,3 +37,13 @@ model unique_user {
   email    String @unique(map: "artists_email_key") @db.VarChar(255)
   password String @db.VarChar(255)
 }
+
+model hero_slide {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(25)
+  description String?
+  image       String    @db.VarChar(150)
+  position    Int
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+  updated_at  DateTime? @default(now()) @db.Timestamp(6)
+}

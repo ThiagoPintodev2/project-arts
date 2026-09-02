@@ -109,3 +109,16 @@ export const getBiographyOfArtist = async (req, res) => {
     })
   }
 }
+
+{/* TO GET DATAS OF HERO SLIDE*/}
+
+export const getDatasOfHeroSlide = async (req, res) => {
+  try {
+    const datasHeroSlide = await prisma.hero_slide.findMany()
+    res.json(datasHeroSlide)
+  } catch(error) {
+    res.status(404).json({
+      error: "Erro ao carregas dados"
+    })
+  }
+}
