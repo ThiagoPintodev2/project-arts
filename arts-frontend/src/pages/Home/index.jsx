@@ -1,3 +1,5 @@
+import Gallery from '../../components/Gallery';
+
 import carousel1 from '../../assets/carousel1.jpg'
 import carousel2 from '../../assets/carousel2.jpg'
 import carousel3 from '../../assets/carousel3.jpg'
@@ -40,7 +42,7 @@ function Home() {
           <Tabs defaultActiveKey="1" items={items} />
         </div>
       </header>
-      <Carousel>
+      <Carousel arrows>
         <div className='home-carousel__slide'>
           <div className='home-carousel__content'>
             <div className='home-carousel__row'>
@@ -87,6 +89,7 @@ function Home() {
           </div>
         </div>
       </Carousel>
+      <Gallery />
     </div>
   )
 }
