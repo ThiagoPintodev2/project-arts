@@ -36,8 +36,8 @@ function Gallery() {
       <Row
         wrap
         gutter={[
-          { xs: 24, sm: 16, md: 24, lg: 32 },
-          { xs: 24, sm: 16, md: 24, lg: 32 },
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+          { xs: 8, sm: 16, md: 24, lg: 32 },
         ]}
       >
         {works.map((work, index) => (
