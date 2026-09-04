@@ -1,26 +1,140 @@
 @import "../../theme/variable.less";
 
 .container-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   width: 100%;
-  height: 100px;
+  min-height: 100px;
   background-color: @colorAnchor;
-  align-items: center;
-  
+
   &__menu-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100%;
+    min-height: 100px;
+    gap: 16px;
   }
-  .ant-tabs-nav-list {
+
+  &__tabs {
+    margin-left: auto;
+    flex: 0 0 auto;
     display: flex;
-    gap: 40px;
+    justify-content: flex-end;
+
+    .ant-tabs-nav {
+      margin: 0;
+    }
+
+    .ant-tabs-nav-list {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 40px;
+    }
+
+    .ant-tabs-nav-operations {
+      display: none !important;
+    }
   }
 
   &__logo {
+    flex-shrink: 0;
     color: @colorSerenity;
     font-family: sans-serif;
     font-size: 45px;
+    white-space: nowrap;
+  }
+
+  &__toggle {
+    display: none;
+    margin-left: auto;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border: 1px solid fade(@colorSerenity, 35%);
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+
+    span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: @colorSerenity;
+    }
+  }
+
+  &__mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    button {
+      width: 100%;
+      padding: 14px 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: @colorDepth;
+      font-size: 18px;
+      text-align: left;
+      cursor: pointer;
+
+      &.is-active,
+      &:hover {
+        background: fade(@colorDepth, 12%);
+        color: @colorDepth;
+      }
+    }
+  }
+
+  @media (max-width: @xxl) {
+    &__logo {
+      font-size: 32px;
+    }
+
+    &__tabs .ant-tabs-nav-list {
+      gap: 24px;
+    }
+  }
+
+  @media (max-width: @xl) {
+    min-height: 72px;
+
+    &__menu-nav {
+      min-height: 72px;
+    }
+
+    &__logo {
+      font-size: 26px;
+    }
+
+    &__tabs {
+      display: none;
+    }
+
+    &__toggle {
+      display: flex;
+    }
+  }
+}
+
+.container-header__drawer {
+  .ant-drawer-content,
+  .ant-drawer-header {
+    background: @colorAnchor;
+  }
+
+  .ant-drawer-title,
+  .ant-drawer-close {
+    color: @colorSerenity;
+  }
+
+  .ant-drawer-header {
+    border-bottom-color: fade(@colorSerenity, 18%);
   }
 }
 

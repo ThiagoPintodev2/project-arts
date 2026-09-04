@@ -1,11 +1,11 @@
+import { useState } from 'react';
 import Gallery from '../../components/Gallery';
 
 import carousel1 from '../../assets/carousel1.jpg'
 import carousel2 from '../../assets/carousel2.jpg'
 import carousel3 from '../../assets/carousel3.jpg'
 
-import { Tabs } from 'antd';
-import { Carousel } from 'antd';
+import { Tabs, Carousel, Drawer } from 'antd';
 
 import './index.less'
 
@@ -33,14 +33,57 @@ const items = [
 ];
 
 function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeKey, setActiveKey] = useState('1');
+
+  const selectItem = (key) => {
+    setActiveKey(key);
+    setMenuOpen(false);
+  };
 
   return (
     <div>
       <header className='container-header'>
         <div className='page-inner container-header__menu-nav'>
           <div className='container-header__logo'>CESAR ART</div>
-          <Tabs defaultActiveKey="1" items={items} />
+          <Tabs
+            className='container-header__tabs'
+            activeKey={activeKey}
+            onChange={setActiveKey}
+            items={items}
+          />
+          <button
+            type='button'
+            className='container-header__toggle'
+            aria-label='Abrir menu'
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(true)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
+        <Drawer
+          title='CESAR ART'
+          placement='right'
+          open={menuOpen}
+          onClose={() => setMenuOpen(false)}
+          rootClassName='container-header__drawer'
+        >
+          <nav className='container-header__mobile-nav'>
+            {items.map((item) => (
+              <button
+                key={item.key}
+                type='button'
+                className={activeKey === item.key ? 'is-active' : ''}
+                onClick={() => selectItem(item.key)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+        </Drawer>
       </header>
       <Carousel arrows>
         <div className='home-carousel__slide'>
