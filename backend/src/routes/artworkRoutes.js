@@ -1,4 +1,5 @@
 import express from "express";
+import { upload } from "../middleware/upload.js";
 import {
   createArtwork,
   getArtworks,
@@ -6,7 +7,8 @@ import {
   updateArtwork,
   deleteArtwork,
   getBiographyOfArtist,
-  getDatasOfHeroSlide
+  getDatasOfHeroSlide,
+  sendImage
 } from "../controllers/artworkController.js";
 
 const router = express.Router();
@@ -17,6 +19,8 @@ router.get('/', getDatasOfHeroSlide);
 router.post("/", createArtwork);
 // Info do artista
 router.get("/biography", getBiographyOfArtist);
+// enviar imagem
+router.post("/upload", upload.single("image"), sendImage);
 // Buscar uma obra pelo id
 router.get("/:id", getArtworkById);
 // Atualizar obra

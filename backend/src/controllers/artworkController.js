@@ -1,4 +1,5 @@
 import { prisma } from "../db.js";
+import multer from "multer";
 
 export async function getArtworks(req, res) {
   try {
@@ -6,7 +7,7 @@ export async function getArtworks(req, res) {
 
     res.json(artworks);
 
-  } catch(error) {
+  } catch (error) {
     res.status(500).json({
       error: "Erro ao buscar obras"
     });
@@ -27,7 +28,7 @@ export async function getArtworkById(req, res) {
     }
     res.json(artwork);
 
-  } catch(error) {
+  } catch (error) {
     res.status(500).json({
       error: "Erro ao buscar obra"
     });
@@ -52,7 +53,7 @@ export async function updateArtwork(req, res) {
       artwork: updateArtWorks,
     });
 
-  } catch(error) {
+  } catch (error) {
     res.status(404).json({
       error: "Obra não encontrada",
     });
@@ -72,7 +73,7 @@ export async function deleteArtwork(req, res) {
       artwork: deleteArtWorks,
     });
 
-  } catch(error) {
+  } catch (error) {
     res.status(404).json({
       message: "Obra não encontrada",
     });
@@ -92,7 +93,7 @@ export async function createArtwork(req, res) {
 
     res.status(201).json(newArtWorks);
 
-  } catch(error) {
+  } catch (error) {
     res.status(500).json({
       error: "Erro ao criar obra",
     });
@@ -103,22 +104,43 @@ export const getBiographyOfArtist = async (req, res) => {
   try {
     const BiographyOfArtist = await prisma.artist.findMany()
     res.json(BiographyOfArtist)
-  } catch(error) {
+  } catch (error) {
     res.status(404).json({
       error: "Informações não encontradas"
     })
   }
 }
 
-{/* TO GET DATAS OF HERO SLIDE*/}
+{/* TO GET DATAS OF HERO SLIDE*/ }
 
 export const getDatasOfHeroSlide = async (req, res) => {
   try {
     const datasHeroSlide = await prisma.hero_slide.findMany()
     res.json(datasHeroSlide)
-  } catch(error) {
+  } catch (error) {
     res.status(404).json({
       error: "Erro ao carregas dados"
     })
   }
 }
+
+
+export const sendImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Nenhuma imagem enviada" });
+    }
+    const image = await prisma.artworks.create({
+      data: {
+        title: req.body.title,
+        description: req.body.description,
+        date: new Date(req.body.date),
+        image_url: `/uploads/${req.file.filename}`,
+      },
+    });
+    res.status(201).json(image);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Não foi possivel enviar a imagem" });
+  }
+};
