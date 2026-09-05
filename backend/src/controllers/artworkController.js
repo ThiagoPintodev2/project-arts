@@ -144,3 +144,14 @@ export const sendImage = async (req, res) => {
     res.status(500).json({ error: "Não foi possivel enviar a imagem" });
   }
 };
+
+export const getImage = async (req, res) => {
+  try {
+    const images = await prisma.artworks.findMany()
+    res.status(200).json(images)
+  }catch(error) {
+    res.status(404).json({
+      error: "Não foi possivel buscar as imagens"
+    })
+  }
+}
