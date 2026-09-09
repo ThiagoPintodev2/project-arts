@@ -1,33 +1,20 @@
+import { useEffect, useState } from 'react';
+import instance from '../../helper/axios-instance';
 import { Card, Col, Row } from 'antd';
 
 import './index.less'
-
-const { Meta } = Card;
-
-const works = [
-  {
-    title: 'Europe Street beat',
-    description: 'www.instagram.com',
-    image: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-  },
-  {
-    title: 'Europe Street beat',
-    description: 'www.instagram.com',
-    image: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-  },
-  {
-    title: 'Europe Street beat',
-    description: 'www.instagram.com',
-    image: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-  },
-  {
-    title: 'Europe Street beat',
-    description: 'www.instagram.com',
-    image: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-  },
-];
-
 function Gallery() {
+  const [listGallery, setListGallery] = useState([])
+
+  useEffect(() => {
+    instance.get('/').then((res) => {
+      setListGallery(res.data)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }, [])
+
+  console.log(listGallery)
   return (
     <div className="container-gallery page-inner">
       <p className='container-galery__title'>
@@ -40,22 +27,23 @@ function Gallery() {
           { xs: 8, sm: 16, md: 24, lg: 32 },
         ]}
       >
-        {works.map((work, index) => (
-          <Col key={index} xs={24} sm={12} xl={8} xxl={6}>
+        {listGallery.map((work, index) => (
+          <Col key={index} xs={24} sm={8} xl={6} xxl={6}>
             <Card
               hoverable
               variant="borderless"
               style={{ width: '100%' }}
               cover={
                 <img
-                  draggable={false}
-                  alt={work.title}
-                  src={work.image}
+                draggable={false}
+                alt={work.title}
+                src={`http://localhost:8081/${work.image_url.replace(/^\/uploads\//, "")}`}
                 />
               }
-            >
-              <Meta title={work.title} description={work.description} />
+              >
             </Card>
+            <div>{work.title}</div>
+            <div>description={work.description}</div>
           </Col>
         ))}
       </Row>

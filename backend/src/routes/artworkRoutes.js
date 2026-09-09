@@ -26,7 +26,7 @@ router.post("/", createArtwork);
 // Info do artista
 router.get("/biography", getBiographyOfArtist);
 // enviar imagem
-router.post("/upload", upload.single("image"), sendImage);
+router.post("/", upload.single("image"), sendImage);
 // Buscar uma obra pelo id
 router.get("/:id", getArtworkById);
 // Atualizar obra
