@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
+import useAxios from '../../hook/user-axios'
 import instance from '../../helper/axios-instance';
 import { Card, Col, Row } from 'antd';
 
 import './index.less'
 function Gallery() {
-  const [listGallery, setListGallery] = useState([])
-
-  useEffect(() => {
-    instance.get('/').then((res) => {
-      setListGallery(res.data)
-    }).catch((error) => {
-      console.log(error)
-    })
-  }, [])
+  const [listGallery, loading, error] = useAxios({
+    instance,
+    method: 'GET',
+    url: '/'
+  })
 
   console.log(listGallery)
   return (
