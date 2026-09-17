@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Gallery from '../../components/Gallery';
+import Events from '../../components/Events';
 
 import carousel1 from '../../assets/carousel1.jpg'
 import carousel2 from '../../assets/carousel2.jpg'
@@ -133,6 +134,7 @@ function Home() {
         </div>
       </Carousel>
       <Gallery />
+      <Events />
     </div>
   )
 }

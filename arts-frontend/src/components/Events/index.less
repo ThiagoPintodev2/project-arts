@@ -1,0 +1,54 @@
+@import '../../theme/variable.less';
+
+.container-events {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 520px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 78% 110% at 6% 52%, fade(@colorEverGreen, 88%) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 95% at 96% 48%, fade(@colorHorizon, 58%) 0%, transparent 62%),
+    linear-gradient(
+      105deg,
+      darken(@colorEverGreen, 10%) 0%,
+      @colorEverGreen 16%,
+      mix(@colorEverGreen, @colorDepth, 42%) 38%,
+      @colorDepth 58%,
+      mix(@colorDepth, @colorHorizon, 45%) 80%,
+      @colorHorizon 100%
+    );
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, fade(@colorAnchor, 42%) 0%, transparent 24%);
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    min-height: 520px;
+    padding: 88px 0;
+  }
+
+  @media (max-width: @xl) {
+    min-height: 420px;
+
+    &__inner {
+      min-height: 420px;
+      padding: 64px 0;
+    }
+  }
+
+  @media (max-width: @sm) {
+    min-height: 360px;
+
+    &__inner {
+      min-height: 360px;
+      padding: 48px 0;
+    }
+  }
+}
