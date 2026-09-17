@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 function useAxios(configRequest) {
   const { instance, method, url, configs = {} } = configRequest
   const [data, setData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {

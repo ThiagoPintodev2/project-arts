@@ -1,5 +1,4 @@
 import { prisma } from "../db.js";
-import multer from "multer";
 
 export async function getArtworks(req, res) {
   try {
@@ -82,18 +81,28 @@ export async function deleteArtwork(req, res) {
 
 export async function createArtwork(req, res) {
   try {
-    const newArtWorks = await prisma.artworks.create({
+    console.log("FILE:", req.file);
+    console.log("BODY:", req.body);
+
+    if (!req.file) {
+      return res.status(400).json({
+        error: "Nenhuma imagem enviada",
+      });
+    }
+
+    const newArtwork = await prisma.artworks.create({
       data: {
         title: req.body.title,
         description: req.body.description,
         date: new Date(req.body.date),
-        image_url: req.body.image_url,
+        image_url: req.file.path,
       },
     });
 
-    res.status(201).json(newArtWorks);
-
+    res.status(201).json(newArtwork);
   } catch (error) {
+    console.error(error);;
+
     res.status(500).json({
       error: "Erro ao criar obra",
     });
@@ -123,27 +132,6 @@ export const getDatasOfHeroSlide = async (req, res) => {
     })
   }
 }
-
-
-export const sendImage = async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: "Nenhuma imagem enviada" });
-    }
-    const image = await prisma.artworks.create({
-      data: {
-        title: req.body.title,
-        description: req.body.description,
-        date: new Date(req.body.date),
-        image_url: `/uploads/${req.file.filename}`,
-      },
-    });
-    res.status(201).json(image);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Não foi possivel enviar a imagem" });
-  }
-};
 
 export const getImage = async (req, res) => {
   try {
