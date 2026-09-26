@@ -1,6 +1,8 @@
-import './index.less'
 import arteDigital from '../../assets/arte-digital.jpg'
+import { Divider } from 'antd'
 import { EditOutlined, CopyOutlined, StarOutlined } from '@ant-design/icons'
+
+import './index.less'
 
 const steps = [
   {
@@ -53,6 +55,11 @@ function Footer() {
             ))}
           </ol>
         </div>
+      </div>
+      <Divider className='container-arts-styles__divider' />
+      <div className='page-inner container-arts-styles__footer-content'>
+        <p>CSPACE_ART</p>
+        <p>Arte digital, órbitas e paisagens sintéticas. © 2026</p>
       </div>
     </section>
   )

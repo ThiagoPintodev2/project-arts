@@ -32,7 +32,17 @@
     position: relative;
     z-index: 1;
     min-height: 520px;
-    padding: 88px 0;
+    padding: 88px 0 25px;
+  }
+
+  &__footer-content {
+    color: fade(@colorSerenity, 82%);
+    line-height: 25px;
+    padding: 20px ;
+
+    @media(max-width: @xs) {
+      text-align: center;
+    }
   }
 
   &__img-footer {
@@ -142,7 +152,7 @@
       align-items: flex-start;
       gap: 36px;
       min-height: 420px;
-      padding: 64px 0;
+      padding: 64px 0 25px;
     }
 
     &__img-footer {
@@ -176,4 +186,9 @@
       column-gap: 8px;
     }
   }
+
+  &__divider {
+    background-color: #bbd7db29;
+  }
+  
 }
