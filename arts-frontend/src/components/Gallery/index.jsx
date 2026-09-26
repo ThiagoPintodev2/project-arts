@@ -58,7 +58,7 @@ function Gallery() {
             </Col>
           ) : (
             works.map((work) => (
-              <Col key={work.id ?? work.title} xs={24} sm={12} lg={8} xl={6}>
+              <Col key={work.id ?? work.title} xs={24} sm={12} lg={8} xl={8}>
                 <Card
                   hoverable
                   variant="borderless"
