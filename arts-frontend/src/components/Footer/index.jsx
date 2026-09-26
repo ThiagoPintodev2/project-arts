@@ -23,7 +23,7 @@ const steps = [
   },
 ]
 
-function Events() {
+function Footer() {
   return (
     <section className="container-arts-styles" aria-label="O processo">
       <div className="page-inner container-arts-styles__inner">
@@ -58,4 +58,4 @@ function Events() {
   )
 }
 
-export default Events
+export default Footer;
