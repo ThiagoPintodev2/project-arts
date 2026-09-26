@@ -2,7 +2,7 @@ import { ConfigProvider } from "antd";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-
+import AdminArea from "./pages/Admin-area";
 import theme from "./theme/index";
 
 function App() {
@@ -12,7 +12,8 @@ function App() {
       <ConfigProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-          <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/admin-area" element={<AdminArea />} />
           </Routes>
         </BrowserRouter>
       </ConfigProvider>

@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Gallery from '../../components/Gallery';
 import Footer from '../../components/Footer';
 
 import carousel1 from '../../assets/carousel1.jpg'
 import carousel2 from '../../assets/carousel2.jpg'
 import carousel3 from '../../assets/carousel3.jpg'
+import { GiPadlock } from "react-icons/gi";
 
 import { Tabs, Carousel, Drawer } from 'antd';
 
@@ -28,14 +30,21 @@ const items = [
     label: 'Contato'
   },
   {
-    key: '5',
-    label: 'Área administrativa'
+    key: 'admin-area',
+    label: (
+      <span className="container-header__admin">
+        <GiPadlock aria-hidden />
+        Área administrativa
+      </span>
+    ),
   },
 ];
 
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeKey, setActiveKey] = useState('1');
+
+  const navigate = useNavigate()
 
   const selectItem = (key) => {
     setActiveKey(key);
@@ -50,7 +59,7 @@ function Home() {
           <Tabs
             className='container-header__tabs'
             activeKey={activeKey}
-            onChange={setActiveKey}
+            onChange={(key) => navigate(key)}
             items={items}
           />
           <button
