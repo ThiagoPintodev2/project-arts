@@ -22,7 +22,7 @@ const items = [
     label: 'Biografia'
   },
   {
-    key: '3',
+    key: 'store',
     label: 'Loja'
   },
   {

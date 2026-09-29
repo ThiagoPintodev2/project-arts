@@ -17,7 +17,7 @@ function AdminArea() {
   return (
     <div className='container-login'>
       <h3 className='container-login__title'>Área Reservada</h3>
-      <p className='container-login__description'>O painel só pode ser acessado exclusivamente pelo o artista</p>
+      <p className='container-login__description'>O painel só pode ser acessado exclusivamente pelo o artista.</p>
       <Form
         layout="vertical"
         name="basic"
@@ -27,7 +27,7 @@ function AdminArea() {
         autoComplete="off"
       >
         <Form.Item
-          label="Username"
+          label="Nome"
           name="username"
           rules={[{ required: true, message: 'Insira seu Nome!' }]}
         >
@@ -35,7 +35,7 @@ function AdminArea() {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="Senha"
           name="password"
           rules={[{ required: true, message: 'Insira Sua Senha!' }]}
         >
@@ -48,7 +48,7 @@ function AdminArea() {
 
         <Form.Item label={null}>
           <Button type="primary" htmlType="submit">
-            Submit
+            Enviar
           </Button>
         </Form.Item>
       </Form>
