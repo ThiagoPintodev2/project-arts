@@ -20,6 +20,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    font-size: 16px;
   }
 
   &__tabs {
@@ -30,6 +31,10 @@
 
     .ant-tabs-nav {
       margin: 0;
+    }
+
+    .ant-tabs-tab-btn {
+      font-size: 16px;
     }
 
     .ant-tabs-nav-list {
@@ -107,7 +112,7 @@
     }
   }
 
-  @media (max-width: @xl) {
+  @media (max-width: @lg) {
     min-height: 72px;
 
     &__menu-nav {
@@ -129,6 +134,7 @@
 }
 
 .container-header__drawer {
+
   .ant-drawer-content,
   .ant-drawer-header {
     background: @colorAnchor;

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import authContext from '../../context/authContext';
 import Gallery from '../../components/Gallery';
 import Footer from '../../components/Footer';
 
@@ -8,7 +9,7 @@ import carousel2 from '../../assets/carousel2.jpg'
 import carousel3 from '../../assets/carousel3.jpg'
 import { GiPadlock } from "react-icons/gi";
 
-import { Tabs, Carousel, Drawer } from 'antd';
+import { Tabs, Carousel, Drawer, Button } from 'antd';
 
 import './index.less'
 
@@ -32,10 +33,10 @@ const items = [
   {
     key: 'admin-area',
     label: (
-      <span className="container-header__admin">
+      <Button className="container-header__admin">
         <GiPadlock aria-hidden />
         Área administrativa
-      </span>
+      </Button>
     ),
   },
 ];
@@ -43,12 +44,18 @@ const items = [
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeKey, setActiveKey] = useState('1');
+  const auth = useContext(authContext)
 
   const navigate = useNavigate()
 
   const selectItem = (key) => {
     setActiveKey(key);
     setMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    auth.setIsAutentication(false);
+    navigate("/admin-area");
   };
 
   return (
@@ -59,9 +66,23 @@ function Home() {
           <Tabs
             className='container-header__tabs'
             activeKey={activeKey}
-            onChange={(key) => navigate(key)}
-            items={items}
-          />
+            onChange={(key) => {
+              if (key === 'logout') {
+                handleLogout();
+                return;
+              }
+
+              navigate(key);
+            }}
+            items={[...items, ...(auth.isAutentication ? [{
+              key: "logout", label: (
+                <Button onClick={handleLogout}>
+                  Sair
+                </Button>
+              )
+            }] : [])]}
+          >
+          </Tabs>
           <button
             type='button'
             className='container-header__toggle'
@@ -69,6 +90,7 @@ function Home() {
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(true)}
           >
+
             <span />
             <span />
             <span />
@@ -92,6 +114,9 @@ function Home() {
                 {item.label}
               </button>
             ))}
+            {
+              auth.isAutentication && <Button onClick={handleLogout}>Sair</Button>
+            }
           </nav>
         </Drawer>
       </header>

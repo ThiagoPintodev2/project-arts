@@ -40,6 +40,12 @@ body {
   color: #bbd7db;
 }
 
+@media (max-width: 1290px) {
+  :root {
+    --page-gutter: 100px;
+  }
+}
+
 @media (max-width: 1100px) {
   :root {
     --page-gutter: 24px;
