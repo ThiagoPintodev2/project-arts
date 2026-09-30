@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import { prisma } from "../db.js";
+import jwt from 'jsonwebtoken';
 
 export async function getArtworks(req, res) {
   try {
@@ -137,9 +139,58 @@ export const getImage = async (req, res) => {
   try {
     const images = await prisma.artworks.findMany()
     res.status(200).json(images)
-  }catch(error) {
+  } catch (error) {
     res.status(404).json({
       error: "Não foi possivel buscar as imagens"
     })
   }
 }
+
+export const login = async (req, res) => {
+
+  try {
+    const { email, password } = req.body
+    const user = await prisma.unique_user.findUnique({
+      where: { email }
+    })
+
+    if (!user) {
+      return res.status(401).json({ message: 'Senha ou email incorretos' })
+    }
+
+    const passwordIsValid = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    if (!passwordIsValid) {
+      return res.status(401).json({ message: 'Senha ou email incorretos' })
+    }
+
+    const token = jwt.sign(
+      {userId: user.id},
+      process.env.JWT_SECRET,
+      {expiresIn: '1h'}
+    )
+
+    res.json({
+      message: 'Login realizado com sucesso',
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        lastname: user.lastname,
+        email: user.email
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'error interno do servidor' })
+  }
+}
+
+export const teste = async (req, res) => {
+  res.json({
+    message: 'Rota protegida acessada com sucesso',
+    user: req.user
+  });
+};
