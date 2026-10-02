@@ -22,6 +22,6 @@ function useAxios(configRequest) {
     fetchData()
   }, [])
   
-  return [data, loading, error, fetchData]
+  return [data, loading, setLoading, error, fetchData]
 }
 export default useAxios;

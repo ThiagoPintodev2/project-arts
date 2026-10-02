@@ -14,13 +14,13 @@ function artworkYear(date) {
   if (!date) {
     return ''
   };
-  const year = new Date(date).getFullYear();
-  return Number.isNaN(year) ? '' : year;
+  const formatedDate = new Date(date);
+  const dataSimples = formatedDate.toLocaleDateString('pt-BR');
+  return dataSimples
 }
-
 function Gallery() {
   const auth = useContext(authContext)
-  const [listGallery, loading, ,reloadGallery] = useAxios({
+  const [listGallery, loading, setLoading, , reloadGallery] = useAxios({
     instance,
     method: 'GET',
     url: '/'
@@ -37,7 +37,7 @@ function Gallery() {
           </h2>
           {!loading && (
             <p className="container-gallery__count">
-              {works.length} {works.length === 1 ? 'obra' : 'obras'}
+              {works.length} / 8 {works.length === 1 ? 'obra' : 'obras'}
             </p>
           )}
         </header>
@@ -86,7 +86,7 @@ function Gallery() {
         </Row>
         {!auth.isAutentication && (
           <div className='container-gallery__post-image'>
-            <ModalPostImage onPosted={reloadGallery} />
+            <ModalPostImage workLength={works.length} onPosted={reloadGallery} loading={loading} setLoading={setLoading} />
           </div>
         )}
       </div>

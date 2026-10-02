@@ -8,13 +8,12 @@ const { TextArea } = Input;
 
 import './index.less'
 
-function ModalPostImage({ onPosted }) {
+function ModalPostImage({ workLength, onPosted, loading, setLoading }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log(workLength)
   const [form] = Form.useForm();
 
   const normFile = e => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -39,6 +38,8 @@ function ModalPostImage({ onPosted }) {
     formData.append('description', values.description);
     formData.append('image', file);
 
+    setLoading(true)
+
     try {
       await instance.post('/', formData);
       form.resetFields();
@@ -52,10 +53,16 @@ function ModalPostImage({ onPosted }) {
     console.log('Failed:', errorInfo);
   };
 
+  const limitReached = workLength >= 8;
+
   return (
     <>
-      <Button onClick={showModal}>
-        Enviar Arte
+      <Button
+        className="btn-send-art"
+        disabled={limitReached}
+        onClick={showModal}
+      >
+        {limitReached ? 'Limite máximo de Fotos Atingido' : 'Enviar Obra'}
       </Button>
       <Modal
         title="Informações da Obra"
@@ -63,6 +70,13 @@ function ModalPostImage({ onPosted }) {
         open={isModalOpen}
         onOk={() => form.submit()}
         onCancel={handleCancel}
+        cancelButtonProps={{
+          loading,
+          disabled: loading,
+        }}
+        okButtonProps={{ disabled: loading }}
+        confirmLoading={loading}
+        disabled={loading}
       >
         <Form
           className='container-form-modal'
