@@ -188,9 +188,4 @@ export const login = async (req, res) => {
   }
 }
 
-export const teste = async (req, res) => {
-  res.json({
-    message: 'Rota protegida acessada com sucesso',
-    user: req.user
-  });
-};
+

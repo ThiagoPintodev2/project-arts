@@ -1,16 +1,14 @@
+import { useContext } from 'react';
 import useAxios from '../../hook/user-axios'
 import instance from '../../helper/axios-instance';
+
+import authContext from '../../context/authContext';
+import ModalPostImage from './ModalPostImage';
+
 import { LoadingOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Spin } from 'antd';
 
 import './index.less'
-
-function artworkSrc(imageUrl) {
-  if (!imageUrl) {
-    return ''
-  };
-  return `http://localhost:8081/${imageUrl.replace(/^\/uploads\//, "")}`;
-}
 
 function artworkYear(date) {
   if (!date) {
@@ -21,7 +19,8 @@ function artworkYear(date) {
 }
 
 function Gallery() {
-  const [listGallery, loading] = useAxios({
+  const auth = useContext(authContext)
+  const [listGallery, loading, ,reloadGallery] = useAxios({
     instance,
     method: 'GET',
     url: '/'
@@ -58,7 +57,7 @@ function Gallery() {
             </Col>
           ) : (
             works.map((work) => (
-              <Col key={work.id ?? work.title} xs={24} sm={12} lg={8} xl={8}>
+              <Col key={work.id ?? work.title} xs={24} sm={12} lg={8} xl={6}>
                 <Card
                   hoverable
                   variant="borderless"
@@ -85,6 +84,11 @@ function Gallery() {
             ))
           )}
         </Row>
+        {!auth.isAutentication && (
+          <div className='container-gallery__post-image'>
+            <ModalPostImage onPosted={reloadGallery} />
+          </div>
+        )}
       </div>
     </section>
   )

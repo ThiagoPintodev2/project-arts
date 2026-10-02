@@ -6,23 +6,22 @@ function useAxios(configRequest) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
+  const fetchData = async () => {
     setLoading(true)
-    const fecthData = async () => {
-      try {
-        const res = await instance[method.toLowerCase()](url, {
-          ...configs,
-        })
-        setData(res.data)
-      } catch (error) {
-        setError(error.message)
-      } finally {
-        setLoading(false)
-      }
+    try {
+      const res = await instance[method.toLowerCase()](url, { ...configs })
+      setData(res.data)
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setLoading(false)
     }
-    fecthData()
+  }
+  
+  useEffect(() => {
+    fetchData()
   }, [])
-
-  return [data, loading, error]
+  
+  return [data, loading, error, fetchData]
 }
 export default useAxios;
