@@ -20,6 +20,7 @@ function artworkYear(date) {
   const formattedDate = `${day}/${month}/${year}`;
   return formattedDate
 }
+
 function Gallery() {
   const auth = useContext(authContext)
   const [listGallery, loading, setLoading, , reloadGallery] = useAxios({
@@ -28,20 +29,18 @@ function Gallery() {
     url: '/'
   })
 
-  const editGalleryImage = (v) => {
-    const [, loading, setLoading, , reloadGallery] = useAxios({
-      instance,
-      method: 'PUT',
-      url: '/'
-    })
-    console.log(v)
-  }
-
   const works = Array.isArray(listGallery) ? listGallery : [];
   const masonryItems = works.map((work, index) => ({
     key: work.id ?? `${work.title}-${index}`,
     data: work,
   }));
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
+  const onFinish = (values) => {
+    console.log('Valores editados:', values);
+  };
 
   return (
     <section className="container-gallery">
@@ -99,7 +98,14 @@ function Gallery() {
                         {artworkYear(work.date)}
                       </p>
                       <div>
-                        <ContentActions listGallery={listGallery} editGalleryImage={editGalleryImage} />
+                        <ContentActions
+                          work={work}
+                          loading={loading}
+                          setLoading={setLoading}
+                          onFinishFailed={onFinishFailed}
+                          onFinish={onFinish}
+                          reloadGallery={reloadGallery}
+                        />
                       </div>
                     </div>
                   </Card>

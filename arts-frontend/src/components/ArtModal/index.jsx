@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
+
 import { Button, Modal, Form, Input, DatePicker, Upload } from 'antd';
 
 import { UploadOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
 
 const { TextArea } = Input;
 
@@ -8,17 +11,28 @@ function ArtModal({
   title,
   open,
   onOk,
-  onCancel,
   cancelButtonProps,
   okButtonProps,
   confirmLoading,
   disabled,
   onFinish,
   onFinishFailed,
+  onCancel,
   form,
   normFile,
+  work,
   mode = ''
 }) {
+
+  useEffect(() => {
+    if (work && mode === 'edit') {
+      form.setFieldsValue({
+        title: work.title,
+        description: work.description,
+        date: dayjs(work.date),
+      });
+    }
+  }, [work, mode, form]);
 
   return (
     <div>
