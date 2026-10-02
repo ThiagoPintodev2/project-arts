@@ -4,7 +4,8 @@ import instance from '../../helper/axios-instance';
 import ArtModal from '../ArtModal';
 
 import { EditOutlined, DeleteOutlined, EllipsisOutlined } from '@ant-design/icons';
-import { Dropdown, Space, Button, Form } from 'antd';
+import { Dropdown, Space, Button, Form, Popconfirm } from 'antd';
+import axios from 'axios';
 
 function ContentActions({ work, onFinishFailed, reloadGallery }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,23 +25,34 @@ function ContentActions({ work, onFinishFailed, reloadGallery }) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const cancel = e => {
+    messageApi.error('Click on No');
+  };
 
   const handleEdit = async (values) => {
-    setLoading(true)
     try {
       const response = await instance.put(`/${selectedArtwork.id}`, {
         title: values.title,
         description: values.description,
         date: values.date.format('YYYY-MM-DD'),
       });
+      setLoading(true)
       handleOk()
-      console.log('Obra atualizada:', response.data);
     } catch (error) {
       console.error('Erro ao atualizar obra:', error);
     }
     setLoading(false)
     reloadGallery()
   };
+
+  const handleDelete = async (work) => {
+    try {
+      const response = await instance.delete(`/${work.id}`)
+    } catch (error) {
+      console.log('Erro ao deletar obra', error)
+    }
+    reloadGallery()
+  }
 
   const items = [
     {
@@ -54,10 +66,20 @@ function ContentActions({ work, onFinishFailed, reloadGallery }) {
     },
     {
       label: <div>
-        <Button>
-          <DeleteOutlined />
-          Deletar
-        </Button>
+        <Popconfirm
+          title="Deletar Obra"
+          description="Deseja realmente deletar esta obra?"
+          onConfirm={() => handleDelete(work)}
+          onCancel={cancel}
+          loading={loading}
+          okText="Sim"
+          cancelText="Não"
+        >
+          <Button>
+            <DeleteOutlined />
+            Deletar
+          </Button>
+        </Popconfirm>
       </div>,
       key: '1',
     }
@@ -71,7 +93,7 @@ function ContentActions({ work, onFinishFailed, reloadGallery }) {
           <Dropdown menu={{ items }} trigger={['click']}>
             <a onClick={e => e.preventDefault()}>
               <Space>
-                <EllipsisOutlined style={{fontSize: 30, color: "#fff"}} />
+                <EllipsisOutlined style={{ fontSize: 30, color: "#fff" }} />
               </Space>
             </a>
           </Dropdown>

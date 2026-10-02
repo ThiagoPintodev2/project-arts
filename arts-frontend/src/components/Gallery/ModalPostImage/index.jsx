@@ -53,7 +53,7 @@ function ModalPostImage({ workLength, onPosted, loading, setLoading }) {
     console.log('Failed:', errorInfo);
   };
 
-  const limitReached = workLength >= 18;
+  const limitReached = workLength === 8;
 
   return (
     <>
