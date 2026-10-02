@@ -45,7 +45,7 @@ export async function updateArtwork(req, res) {
       data: {
         title: req.body.title,
         description: req.body.description,
-        date: new Date(req.body.date),
+        date: new Date(`${req.body.date}T12:00:00`),
       },
     });
 
@@ -53,7 +53,7 @@ export async function updateArtwork(req, res) {
       message: "Dados da obra alterados com sucesso",
       artwork: updateArtWorks,
     });
-
+    
   } catch (error) {
     res.status(404).json({
       error: "Obra não encontrada",

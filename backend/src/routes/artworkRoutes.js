@@ -18,7 +18,7 @@ const router = express.Router();
 router.get('/', getImage);
 
 // Postar obra
-router.post("/", upload.single("image"), createArtwork);
+router.post("/", authMiddleware, upload.single("image"), createArtwork);
 
 // Info do artista
 router.get("/biography", getBiographyOfArtist);
@@ -30,7 +30,7 @@ router.put("/:id", updateArtwork);
 // Deletar obra
 router.delete("/:id", deleteArtwork);
 // Logar o admin da plataforma
-router.post("/admin-area", authMiddleware, login);
+router.post("/admin-area", login);
 
 
 

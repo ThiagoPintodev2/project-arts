@@ -27,7 +27,9 @@ function AdminArea() {
           password: values.password,
         },
       });
-      auth.setIsAutentication(true);
+      auth.setIsAuthentication(true);
+      auth.setToken(response.data.token);
+      localStorage.setItem('token', response.data.token);
       navigate('/')
     } catch (error) {
       console.error(error);

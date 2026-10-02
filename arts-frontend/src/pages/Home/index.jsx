@@ -54,7 +54,9 @@ function Home() {
   };
 
   const handleLogout = () => {
-    auth.setIsAutentication(false);
+    auth.setIsAuthentication(false);
+    auth.setToken(null);
+    localStorage.removeItem('token');
     navigate("/admin-area");
   };
 
@@ -74,7 +76,7 @@ function Home() {
 
               navigate(key);
             }}
-            items={[...items, ...(auth.isAutentication ? [{
+            items={[...items, ...(auth.isAuthentication ? [{
               key: "logout", label: (
                 <Button onClick={handleLogout}>
                   Sair
@@ -115,7 +117,7 @@ function Home() {
               </button>
             ))}
             {
-              auth.isAutentication && <Button onClick={handleLogout}>Sair</Button>
+              auth.isAuthentication && <Button onClick={handleLogout}>Sair</Button>
             }
           </nav>
         </Drawer>

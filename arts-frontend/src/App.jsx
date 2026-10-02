@@ -10,12 +10,13 @@ import authContext from '../src/context/authContext'
 import theme from "./theme/index";
 
 function App() {
-
-  const [isAutentication, setIsAutentication] = useState(false)
+  const savedToken = localStorage.getItem('token');
+  const [isAuthentication, setIsAuthentication] = useState(Boolean(savedToken))
+  const [token, setToken] = useState(null);
 
   return (
     <>
-      <authContext.Provider value={{ isAutentication, setIsAutentication }}>
+      <authContext.Provider value={{ isAuthentication, setIsAuthentication, token, setToken }}>
         <ConfigProvider theme={theme}>
           <BrowserRouter>
             <Routes>
