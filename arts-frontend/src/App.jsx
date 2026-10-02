@@ -22,7 +22,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/store" element={<Store />} />
-              <Route path="/admin-area" element={<AdminArea />} />
+              <Route path="/auth/login" element={<AdminArea />} />
             </Routes>
           </BrowserRouter>
         </ConfigProvider>

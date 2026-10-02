@@ -31,7 +31,7 @@ const items = [
     label: 'Contato'
   },
   {
-    key: 'admin-area',
+    key: 'auth/login',
     label: (
       <Button className="container-header__admin">
         <GiPadlock aria-hidden />
@@ -57,7 +57,7 @@ function Home() {
     auth.setIsAuthentication(false);
     auth.setToken(null);
     localStorage.removeItem('token');
-    navigate("/admin-area");
+    navigate("/auth/login");
   };
 
   return (

@@ -21,7 +21,7 @@ function AdminArea() {
     try {
       const response = await axios({
         method: 'POST',
-        url: 'http://localhost:8081/admin-area',
+        url: 'http://localhost:8081/auth/login',
         data: {
           email: values.email,
           password: values.password,

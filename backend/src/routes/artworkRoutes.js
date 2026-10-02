@@ -8,9 +8,7 @@ import {
   deleteArtwork,
   getBiographyOfArtist,
   getImage,
-  login
 } from "../controllers/artworkController.js";
-
 
 const router = express.Router();
 
@@ -26,11 +24,10 @@ router.get("/biography", getBiographyOfArtist);
 // Buscar uma obra pelo id
 router.get("/:id", getArtworkById);
 // Atualizar obra
-router.put("/:id", updateArtwork);
+router.put("/:id", authMiddleware, updateArtwork);
 // Deletar obra
-router.delete("/:id", deleteArtwork);
+router.delete("/:id", authMiddleware, deleteArtwork);
 // Logar o admin da plataforma
-router.post("/admin-area", login);
 
 
 
