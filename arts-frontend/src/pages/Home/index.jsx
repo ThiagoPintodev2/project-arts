@@ -32,12 +32,7 @@ const items = [
   },
   {
     key: 'auth/login',
-    label: (
-      <Button className="container-header__admin">
-        <GiPadlock aria-hidden />
-        Área administrativa
-      </Button>
-    ),
+    label: <span className="container-header__admin"><GiPadlock/>Área administrativa</span>,
   },
 ];
 
@@ -51,6 +46,7 @@ function Home() {
   const selectItem = (key) => {
     setActiveKey(key);
     setMenuOpen(false);
+    navigate(key);
   };
 
   const handleLogout = () => {
