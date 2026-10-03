@@ -1,123 +1,17 @@
-import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import authContext from '../../context/authContext';
 import Gallery from '../../components/Gallery';
 import Footer from '../../components/Footer';
 
 import carousel1 from '../../assets/carousel1.jpg'
 import carousel2 from '../../assets/carousel2.jpg'
 import carousel3 from '../../assets/carousel3.jpg'
-import { GiPadlock } from "react-icons/gi";
 
-import { Tabs, Carousel, Drawer, Button } from 'antd';
+import { Carousel } from 'antd';
 
 import './index.less'
 
-const items = [
-  {
-    key: '1',
-    label: 'Home'
-  },
-  {
-    key: '2',
-    label: 'Biografia'
-  },
-  {
-    key: 'store',
-    label: 'Loja'
-  },
-  {
-    key: '4',
-    label: 'Contato'
-  },
-  {
-    key: 'auth/login',
-    label: <span className="container-header__admin"><GiPadlock/>Área administrativa</span>,
-  },
-];
-
 function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeKey, setActiveKey] = useState('1');
-  const auth = useContext(authContext)
-
-  const navigate = useNavigate()
-
-  const selectItem = (key) => {
-    setActiveKey(key);
-    setMenuOpen(false);
-    navigate(key);
-  };
-
-  const handleLogout = () => {
-    auth.setIsAuthentication(false);
-    auth.setToken(null);
-    localStorage.removeItem('token');
-    navigate("/auth/login");
-  };
-
-  return (
+ return (
     <div>
-      <header className='container-header'>
-        <div className='page-inner container-header__menu-nav'>
-          <div className='container-header__logo'>CESAR ART</div>
-          <Tabs
-            className='container-header__tabs'
-            activeKey={activeKey}
-            onChange={(key) => {
-              if (key === 'logout') {
-                handleLogout();
-                return;
-              }
-
-              navigate(key);
-            }}
-            items={[...items, ...(auth.isAuthentication ? [{
-              key: "logout", label: (
-                <Button onClick={handleLogout}>
-                  Sair
-                </Button>
-              )
-            }] : [])]}
-          >
-          </Tabs>
-          <button
-            type='button'
-            className='container-header__toggle'
-            aria-label='Abrir menu'
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(true)}
-          >
-
-            <span />
-            <span />
-            <span />
-          </button>
-        </div>
-        <Drawer
-          title='CESAR ART'
-          placement='right'
-          open={menuOpen}
-          onClose={() => setMenuOpen(false)}
-          rootClassName='container-header__drawer'
-        >
-          <nav className='container-header__mobile-nav'>
-            {items.map((item) => (
-              <button
-                key={item.key}
-                type='button'
-                className={activeKey === item.key ? 'is-active' : ''}
-                onClick={() => selectItem(item.key)}
-              >
-                {item.label}
-              </button>
-            ))}
-            {
-              auth.isAuthentication && <Button onClick={handleLogout}>Sair</Button>
-            }
-          </nav>
-        </Drawer>
-      </header>
       <Carousel arrows>
         <div className='home-carousel__slide'>
           <div className='home-carousel__content'>
