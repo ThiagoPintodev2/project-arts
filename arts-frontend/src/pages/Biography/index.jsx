@@ -27,12 +27,11 @@ function Biography() {
   };
   const handleEdit = async (values) => {
     const formData = new FormData();
-    if (values.image?.length) {
-      formData.append('image', values.image[0].originFileObj);
+    if (values.image_url?.length) {
+      formData.append('image', values.image_url[0].originFileObj);
     }
     formData.append('biography', values.description);
     setLoading(true)
-
     try {
       await instance.put('/biography/1', formData, {
         headers: { Authorization: `Bearer ${auth.token}` },
