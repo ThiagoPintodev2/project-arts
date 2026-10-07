@@ -8,6 +8,7 @@ import {
   deleteArtwork,
   getBiographyOfArtist,
   getImage,
+  updateBiographyOfArtist
 } from "../controllers/artworkController.js";
 
 const router = express.Router();
@@ -18,8 +19,11 @@ router.get('/', getImage);
 // Postar obra
 router.post("/", authMiddleware, upload.single("image"), createArtwork);
 
-// Info do artista
+// Biografia do artista
 router.get("/biography", getBiographyOfArtist);
+//Alterar dados da Biografia do artista
+router.put("/biography/:id", authMiddleware, upload.single("image"), updateBiographyOfArtist);
+
 
 // Buscar uma obra pelo id
 router.get("/:id", getArtworkById);

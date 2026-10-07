@@ -10,7 +10,7 @@ body {
 }
 
 :root {
-  --page-gutter: 200px;
+  --page-gutter: 100px;
   --color-depth: #264559;
   --color-anchor: #101a24;
   --color-depth: #264559

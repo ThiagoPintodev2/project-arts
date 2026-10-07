@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ConfigProvider } from "antd";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -8,13 +8,24 @@ import AdminArea from "./pages/Admin-area";
 import Store from "./pages/store";
 import Header from "./components/Layout/Header";
 import authContext from '../src/context/authContext'
+import { readSession } from "./helper/session";
 
 import theme from "./theme/index";
 
 function App() {
-  const savedToken = localStorage.getItem('token');
-  const [isAuthentication, setIsAuthentication] = useState(Boolean(savedToken))
-  const [token, setToken] = useState(null);
+  const [session] = useState(readSession);
+  const [isAuthentication, setIsAuthentication] = useState(session.isAuthentication);
+  const [token, setToken] = useState(session.token);
+
+  useEffect(() => {
+    const handleLogout = () => {
+      setIsAuthentication(false);
+      setToken(null);
+    };
+
+    window.addEventListener('auth:logout', handleLogout);
+    return () => window.removeEventListener('auth:logout', handleLogout);
+  }, []);
 
   return (
     <>

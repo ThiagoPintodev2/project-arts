@@ -1,0 +1,104 @@
+@import '../../theme/variable.less';
+
+.container-biography {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 520px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 78% 110% at 6% 52%, fade(@colorEverGreen, 50%) 0%, transparent 15%),
+    radial-gradient(ellipse 90% 95% at 96% 10%, fade(@colorHorizon, 58%) 0%, transparent 15%),
+    linear-gradient(105deg,
+      darken(@colorEverGreen, 10%) 0%,
+      @colorEverGreen 16%,
+      mix(@colorEverGreen, @colorDepth, 20%) 50%,
+      @colorDepth 58%,
+      mix(@colorDepth, @colorHorizon, 45%) 80%,
+      @colorHorizon 100%);
+
+  &__heading {
+    margin: 0;
+    display: flex;
+    justify-content: end;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid fade(@colorSerenity, 16%);
+  }
+
+  &__title {
+    margin-top: 30px;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: @colorSerenity;
+  }
+
+  &__data-artist {
+    display: flex;
+    gap: 100px;
+    margin-top: 50px;
+
+    @media(max-width: @xxl) {
+      gap: 80px;
+    }
+
+    @media(max-width: @xl) {
+      flex-direction: column;
+      gap: 30px;
+    }
+  }
+
+  &__description {
+    font-size: 18px;
+    margin-top: 20px;
+    line-height: 35px;
+
+    @media(max-width: @xxl) {
+      font-size: 14px;
+      line-height: 28px;
+    }
+
+    @media(max-width: @xl) {
+      text-align: center;
+    }
+  }
+
+  &__name-artist {
+    display: flex;
+    flex-direction: column;
+    font-size: xx-large;
+    font-weight: normal;
+    color: @colorSerenity;
+
+    @media(max-width: @xl) {
+      text-align: center;
+    }
+  }
+
+  &__image {
+    width: 30%;
+    border-radius: 20px;
+
+    @media(max-width: @xxl) {
+      width: 35%;
+    }
+
+    @media(max-width: @xl) {
+      width: 80%;
+      align-self: center;
+    }
+    @media(max-width: @md) {
+      width: 90%;
+    }
+
+  }
+
+  &__btn {
+    margin: 20px 0px;
+    display: flex;
+    justify-content: center;
+  }
+}

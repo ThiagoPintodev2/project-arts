@@ -25,14 +25,24 @@ function ArtModal({
 }) {
 
   useEffect(() => {
-    if (work && mode === 'edit') {
+    if (!open || !work) return;
+  
+    if (mode === 'edit-gallery') {
       form.setFieldsValue({
         title: work.title,
         description: work.description,
         date: dayjs(work.date),
       });
+    } else if (mode === 'edit-biography') {
+      const item = Array.isArray(work) ? work[0] : work;
+      if (!item) return;
+  
+      form.setFieldsValue({
+        title: item.name,
+        description: item.biography,
+      });
     }
-  }, [work, mode, form]);
+  }, [open, work, mode, form]);
 
   return (
     <div>
@@ -62,34 +72,52 @@ function ArtModal({
           <Form.Item
             label="Título:"
             name="title"
-            rules={[{ required: true, message: 'Por favor, inserir um título.' }]}
+            rules={[{ required: !mode === 'edit-biography' ? true : false, message: 'Por favor, inserir um título.' },
+            ...(mode === 'edit-biography'
+              ? [{
+                max: 50,
+                message: 'O título deve ter o máximo de 50 caracteres.',
+              }]
+              : [])]}
           >
-            <Input />
+            <Input maxLength={50} showCount />
           </Form.Item>
 
-          <Form.Item
-            label="Data de Criação:"
-            name="date"
-            rules={[{ required: true, message: 'Por favor, inserir uma data.' }]}
-          >
-            <DatePicker format="DD/MM/YYYY" />
-          </Form.Item>
+          {
+            (mode === 'create' || mode === 'edit-gallery') &&
+            <Form.Item
+              label="Data de Criação:"
+              name="date"
+              rules={[{ required: true, message: 'Por favor, inserir uma data.' }]}
+            >
+              <DatePicker format="DD/MM/YYYY" />
+            </Form.Item>
+          }
 
           <Form.Item
             label="Descrição:"
             name="description"
-            rules={[{ required: true, message: 'Por favor, inserir uma descrição.' }]}
+            rules={[
+              { required: true, message: 'Por favor, inserir uma descrição.' },
+              ...(mode === 'edit-biography'
+                ? [{
+                  min: 20,
+                  max: 1200,
+                  message: 'A biografia deve ter entre 500 e 1200 caracteres.',
+                }]
+                : []),
+            ]}
           >
-            <TextArea style={{ resize: 'none' }} rows={4} />
+            <TextArea maxLength={1200} minLength={500} showCount style={{ resize: 'none' }} rows={4} />
           </Form.Item>
 
           {
-            mode === 'create' &&
+            (mode === 'create' || mode === 'edit-biography') &&
             <Form.Item
               name="image_url"
               valuePropName="fileList"
               getValueFromEvent={normFile}
-              rules={[{ required: true, message: 'Por favor, selecionar uma obra.' }]}
+              rules={[{ required: !mode === 'edit-biography' ? true : false, message: 'Por favor, selecionar uma obra.' }]}
             >
               <Upload
                 name="image"
@@ -104,7 +132,7 @@ function ArtModal({
 
         </Form>
       </Modal>
-    </div>
+    </div >
   )
 }
 export default ArtModal;

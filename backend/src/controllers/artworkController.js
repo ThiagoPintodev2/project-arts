@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { prisma } from "../db.js";
 import jwt from 'jsonwebtoken';
+import { response } from 'express';
 
 export async function getArtworks(req, res) {
   try {
@@ -53,7 +54,7 @@ export async function updateArtwork(req, res) {
       message: "Dados da obra alterados com sucesso",
       artwork: updateArtWorks,
     });
-    
+
   } catch (error) {
     res.status(404).json({
       error: "Obra não encontrada",
@@ -83,9 +84,6 @@ export async function deleteArtwork(req, res) {
 
 export async function createArtwork(req, res) {
   try {
-    console.log("FILE:", req.file);
-    console.log("BODY:", req.body);
-
     if (!req.file) {
       return res.status(400).json({
         error: "Nenhuma imagem enviada",
@@ -168,9 +166,9 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      {userId: user.id},
+      { userId: user.id },
       process.env.JWT_SECRET,
-      {expiresIn: '1h'}
+      { expiresIn: '1h' }
     )
 
     res.json({
@@ -185,6 +183,29 @@ export const login = async (req, res) => {
     })
   } catch (error) {
     res.status(500).json({ message: 'error interno do servidor' })
+  }
+}
+
+export const updateBiographyOfArtist = async (req, res) => {
+  try {
+    const data = {
+      biography: req.body.biography,
+    };
+
+    if (req.file) {
+      data.image_url = req.file.path;
+    }
+
+    const response = await prisma.artist.update({
+      where: {
+        id: 1,
+      },
+      data,
+    });
+
+    res.json(response);
+  } catch (error) {
+    res.status(404).json({ message: 'Não foi possível atualizar os dados' })
   }
 }
 

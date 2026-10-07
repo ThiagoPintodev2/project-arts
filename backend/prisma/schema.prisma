@@ -25,8 +25,8 @@ model products {
 
 model artist {
   id        Int     @id @default(autoincrement())
-  name      String  @db.VarChar(100)
-  biography String?
+  name      String  @db.VarChar(50)
+  biography String? @db.VarChar(1200)
   image_url String? @db.VarChar
 }
 

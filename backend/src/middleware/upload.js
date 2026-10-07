@@ -26,11 +26,12 @@ export const upload = multer({
     const allowedTypes = [
       'image/jpeg',
       'image/png',
+      'image/jpg',
     ];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Apenas imagens JPG, PNG ou WebP são permitidas.'));
+      cb(new Error('Apenas imagens JPG, PNG e JPEG são permitidas.'));
     }
   }
 });

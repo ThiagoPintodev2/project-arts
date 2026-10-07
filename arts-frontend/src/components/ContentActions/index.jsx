@@ -110,7 +110,7 @@ function ContentActions({ work, onFinishFailed, reloadGallery }) {
             onFinishFailed={onFinishFailed}
             work={selectedArtwork}
             form={form}
-            mode='edit'
+            mode='edit-gallery'
           />
         </>
       }
