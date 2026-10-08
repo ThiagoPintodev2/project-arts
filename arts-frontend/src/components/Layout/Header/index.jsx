@@ -18,8 +18,8 @@ const items = [
     label: 'Biografia'
   },
   {
-    key: '/store',
-    label: 'Loja'
+    key: '/safira-colection',
+    label: 'Coleção Safira'
   },
   {
     key: 'contato',
