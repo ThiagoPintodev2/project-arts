@@ -135,7 +135,11 @@ export const getDatasOfHeroSlide = async (req, res) => {
 
 export const getImage = async (req, res) => {
   try {
-    const images = await prisma.artworks.findMany()
+    const images = await prisma.artworks.findMany({
+      orderBy: {
+        date: 'desc'
+      }
+    })
     res.status(200).json(images)
   } catch (error) {
     res.status(404).json({
@@ -211,7 +215,11 @@ export const updateBiographyOfArtist = async (req, res) => {
 
 export const getSafiraCollectionImage = async (req, res) => {
   try {
-    const images = await prisma.safira_collection.findMany()
+    const images = await prisma.safira_collection.findMany({
+      orderBy: {
+        date: 'desc'
+      }
+    })
     res.status(200).json(images)
   } catch (error) {
     res.status(404).json({

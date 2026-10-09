@@ -68,7 +68,7 @@ function SafiraCollection() {
       </div>
       <main>
       <ExpoArts
-        title={'Coleção safira'}
+        title={'Coleção Safira'}
         loading={loading}
         works={works}
         masonryItems={masonryItems}

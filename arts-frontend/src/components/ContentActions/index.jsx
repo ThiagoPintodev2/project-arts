@@ -42,7 +42,7 @@ function ContentActions({ work, onFinishFailed, endPoint = '', reloadGallery }) 
       });
       message.open({
         type: 'success',
-        content: 'Arte editada com sucesso',
+        content: 'Arte Editada com Sucesso',
       });
       setLoading(true)
       handleOk()
@@ -59,7 +59,10 @@ function ContentActions({ work, onFinishFailed, endPoint = '', reloadGallery }) 
     }
     try {
       const response = await instance.delete(`/${updateEndPoint}${work.id}`)
-
+      message.open({
+        type: 'success',
+        content: 'Arte Deletada com Sucesso',
+      })
     } catch (error) {
       console.log('Erro ao deletar obra', error)
     }
