@@ -209,4 +209,82 @@ export const updateBiographyOfArtist = async (req, res) => {
   }
 }
 
+export const getSafiraCollectionImage = async (req, res) => {
+  try {
+    const images = await prisma.safira_collection.findMany()
+    res.status(200).json(images)
+  } catch (error) {
+    res.status(404).json({
+      error: "Não foi possivel buscar as imagens"
+    })
+  }
+}
 
+export async function postSafiraCollectionImage(req, res) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        error: "Nenhuma imagem enviada",
+      });
+    }
+
+    const safiraCollectionImage = await prisma.safira_collection.create({
+      data: {
+        title: req.body.title,
+        description: req.body.description,
+        date: new Date(req.body.date),
+        image_url: req.file.path,
+      },
+    });
+
+    res.status(201).json(safiraCollectionImage);
+  } catch (error) {
+    console.error(error);;
+
+    res.status(500).json({
+      error: "Erro ao criar obra",
+    });
+  }
+}
+
+export async function updateSafiraColletctionImage(req, res) {
+  try {
+    const safiraColletctionImage = await prisma.safira_collection.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        title: req.body.title,
+        description: req.body.description,
+        date: new Date(`${req.body.date}T12:00:00`),
+      },
+    });
+
+    res.status(200).json({
+      message: "Dados da obra alterados com sucesso",
+      artwork: safiraColletctionImage,
+    });
+
+  } catch (error) {
+    res.status(404).json({
+      error: "Obra não encontrada",
+    });
+  }
+}
+
+export const deleteSafiraCollectionImage = async (req, res) => {
+  try {
+    const response = await prisma.safira_collection.delete({
+      where: {
+        id: Number(req.params.id)
+      }
+    })
+    res.status(200).json({
+      message: 'Arte excluída com sucesso'
+    })
+  } catch (error) {
+    res.status(401).json({
+      message: 'Usuário não permitido a deletar obra'
+    })
+  }
+}

@@ -4,10 +4,10 @@ import instance from '../../helper/axios-instance';
 import ArtModal from '../ArtModal';
 
 import { EditOutlined, DeleteOutlined, EllipsisOutlined } from '@ant-design/icons';
-import { Dropdown, Space, Button, Form, Popconfirm } from 'antd';
+import { Dropdown, Space, Button, Form, Popconfirm, message } from 'antd';
 import axios from 'axios';
 
-function ContentActions({ work, onFinishFailed, reloadGallery }) {
+function ContentActions({ work, onFinishFailed, endPoint = '', reloadGallery }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false)
   const [selectedArtwork, setSelectedArtwork] = useState(null);
@@ -29,12 +29,20 @@ function ContentActions({ work, onFinishFailed, reloadGallery }) {
     messageApi.error('Click on No');
   };
 
+  let updateEndPoint = ''
   const handleEdit = async (values) => {
     try {
-      const response = await instance.put(`/${selectedArtwork.id}`, {
+      if(endPoint === 'safira-collection') {
+        updateEndPoint = 'safira-collection/'
+      } 
+      const response = await instance.put(`/${updateEndPoint}${selectedArtwork.id}`, {
         title: values.title,
         description: values.description,
         date: values.date.format('YYYY-MM-DD'),
+      });
+      message.open({
+        type: 'success',
+        content: 'Arte editada com sucesso',
       });
       setLoading(true)
       handleOk()
@@ -46,8 +54,12 @@ function ContentActions({ work, onFinishFailed, reloadGallery }) {
   };
 
   const handleDelete = async (work) => {
+    if(endPoint === 'safira-collection') {
+      updateEndPoint = 'safira-collection/'
+    }
     try {
-      const response = await instance.delete(`/${work.id}`)
+      const response = await instance.delete(`/${updateEndPoint}${work.id}`)
+
     } catch (error) {
       console.log('Erro ao deletar obra', error)
     }

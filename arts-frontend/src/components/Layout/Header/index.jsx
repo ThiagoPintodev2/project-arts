@@ -18,7 +18,7 @@ const items = [
     label: 'Biografia'
   },
   {
-    key: '/safira-colection',
+    key: '/safira-collection',
     label: 'Coleção Safira'
   },
   {

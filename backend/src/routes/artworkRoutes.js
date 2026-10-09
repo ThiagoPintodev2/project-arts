@@ -8,34 +8,33 @@ import {
   deleteArtwork,
   getBiographyOfArtist,
   getImage,
-  updateBiographyOfArtist
+  updateBiographyOfArtist,
+  getSafiraCollectionImage,
+  postSafiraCollectionImage,
+  updateSafiraColletctionImage,
+  deleteSafiraCollectionImage
 } from "../controllers/artworkController.js";
 
 const router = express.Router();
 
-// Buscar artes da home
+// Obras da Home
 router.get('/', getImage);
-
-// Postar obra
-router.post("/", authMiddleware, upload.single("image"), createArtwork);
+router.post('/', authMiddleware, upload.single('image'), createArtwork);
 
 // Biografia do artista
-router.get("/biography", getBiographyOfArtist);
-//Alterar dados da Biografia do artista
-router.put("/biography/:id", authMiddleware, upload.single("image"), updateBiographyOfArtist);
+router.get('/biography', getBiographyOfArtist);
+router.put('/biography/:id', authMiddleware, upload.single('image'), updateBiographyOfArtist);
 
+// Coleção Safira
+router.get('/safira-collection', getSafiraCollectionImage);
+router.post('/safira-collection', authMiddleware, upload.single('image'), postSafiraCollectionImage);
+router.put('/safira-collection/:id', authMiddleware, upload.single('image'), updateSafiraColletctionImage);
+router.delete('/safira-collection/:id', authMiddleware, deleteSafiraCollectionImage);
 
-// Buscar uma obra pelo id
-router.get("/:id", getArtworkById);
-// Atualizar obra
-router.put("/:id", authMiddleware, updateArtwork);
-// Deletar obra
-router.delete("/:id", authMiddleware, deleteArtwork);
-// Logar o admin da plataforma
-
-
-
-
+// Obra específica da Home
+router.get('/:id', getArtworkById);
+router.put('/:id', authMiddleware, updateArtwork);
+router.delete('/:id', authMiddleware, deleteArtwork);
 
 
 export default router;

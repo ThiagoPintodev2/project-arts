@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Biography from './pages/Biography'
 import AdminArea from "./pages/Admin-area";
-import SafiraColection from "./pages/SafiraColection";
+import SafiraCollection from "./pages/SafiraCollection";
 import Header from "./components/Layout/Header";
 import authContext from '../src/context/authContext'
 import { readSession } from "./helper/session";
@@ -36,7 +36,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/biography" element={<Biography />} />
-              <Route path="/safira-colection" element={<SafiraColection />} />
+              <Route path="/safira-collection" element={<SafiraCollection />} />
               <Route path="/auth/login" element={<AdminArea />} />
             </Routes>
           </BrowserRouter>

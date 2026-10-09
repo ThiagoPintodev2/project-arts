@@ -47,3 +47,11 @@ model hero_slide {
   created_at  DateTime? @default(now()) @db.Timestamp(6)
   updated_at  DateTime? @default(now()) @db.Timestamp(6)
 }
+
+model safira_collection {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(40)
+  description String  @db.VarChar(200)
+  date        DateTime @db.Date
+  image_url   String
+}

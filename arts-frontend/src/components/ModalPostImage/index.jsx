@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
-import instance from '../../../helper/axios-instance';
-import authContext from '../../../context/authContext';
-import ArtModal from '../../ArtModal';
+import instance from '../../helper/axios-instance';
+import authContext from '../../context/authContext';
+import ArtModal from '../ArtModal';
 import { Button, Form, Input } from 'antd';
 
 import './index.less'
 
-function ModalPostImage({ workLength, onPosted, loading, setLoading }) {
+function ModalPostImage({ workLength, onPosted, loading, setLoading, endPoint }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const auth = useContext(authContext);
@@ -39,7 +39,7 @@ function ModalPostImage({ workLength, onPosted, loading, setLoading }) {
     setLoading(true)
 
     try {
-      await instance.post('/', formData, {
+      await instance.post(`${endPoint}`, formData, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
       form.resetFields();
@@ -53,16 +53,15 @@ function ModalPostImage({ workLength, onPosted, loading, setLoading }) {
     console.log('Failed:', errorInfo);
   };
 
-  const limitReached = workLength === 8;
-
+  const limitReached = workLength === 8 || workLength >= 8;
   return (
     <>
       <Button
         className="btn-send-art"
-        disabled={limitReached}
+        disabled={endPoint === '/' ? limitReached : null}
         onClick={showModal}
       >
-        {limitReached ? 'Limite máximo de Fotos Atingido' : 'Enviar Obra'}
+        {endPoint === '/' && limitReached ? 'Limite máximo de Fotos Atingido' : 'Enviar Obra'}
       </Button>
 
       <ArtModal
