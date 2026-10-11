@@ -215,16 +215,28 @@ export const updateBiographyOfArtist = async (req, res) => {
 
 export const getSafiraCollectionImage = async (req, res) => {
   try {
+    const limit = Math.min(Number(req.query.limit) || 5, 30)
+    const cursor = req.query.cursor 
+
     const images = await prisma.safira_collection.findMany({
-      orderBy: {
-        date: 'desc'
-      }
+      take: limit + 1, 
+      ...(cursor && {
+        cursor: { id: Number(cursor) }, 
+        skip: 1, 
+      }),
+      orderBy: [
+        { date: 'desc' },
+        { id: 'desc' }, 
+      ],
     })
-    res.status(200).json(images)
+
+    const hasMore = images.length > limit
+    const items = hasMore ? images.slice(0, limit) : images
+    const nextCursor = hasMore ? items[items.length - 1].id : null
+
+    res.status(200).json({ items, nextCursor })
   } catch (error) {
-    res.status(404).json({
-      error: "Não foi possivel buscar as imagens"
-    })
+    res.status(500).json({ error: "Não foi possível buscar as imagens" })
   }
 }
 

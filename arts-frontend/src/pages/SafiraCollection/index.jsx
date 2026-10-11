@@ -1,45 +1,73 @@
-import useAxios from '../../hook/user-axios'
+import { useEffect, useState } from 'react'
 import instance from '../../helper/axios-instance'
 
 import ExpoArts from '../../components/ExpoArts'
 import safira from '../../assets/safira.png'
 
-import {Divider} from 'antd'
+import { Button, Divider } from 'antd'
 import { ArrowDownOutlined } from '@ant-design/icons'
 
 import './index.less'
 import FooterCredits from '../../components/FooterCredits'
 
-function artworkYear(date) {
-  if (!date) {
-    return ''
-  };
-  const [year, month, day] = date.split("T")[0].split("-");
+const PAGE_SIZE = 5
 
-  const formattedDate = `${day}/${month}/${year}`;
-  return formattedDate
+function artworkYear(date) {
+  if (!date) return ''
+  const [year, month, day] = date.split('T')[0].split('-')
+  return `${day}/${month}/${year}`
 }
 
 function SafiraCollection() {
+  const [works, setWorks] = useState([])
+  const [nextCursor, setNextCursor] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
 
-  const [listSafiraCollection, loading, setLoading, , reloadGallery] = useAxios({
-    instance,
-    method: 'GET',
-    url: '/safira-collection'
-  })
+  const fetchPage = async (cursor = null) => {
+    console.log(cursor)
+    const { data } = await instance.get('/safira-collection', {
+      params: { limit: PAGE_SIZE, ...(cursor && { cursor }) },
+    })
+    setWorks(prev => (cursor ? [...prev, ...data.items] : data.items))
+    setNextCursor(data.nextCursor)
+  }
 
-  const works = Array.isArray(listSafiraCollection) ? listSafiraCollection : [];
+  const reloadGallery = async () => {
+    setLoading(true)
+    try {
+      await fetchPage()
+    } catch (error) {
+      console.log('Erro ao carregar a coleção:', error)
+    }
+    setLoading(false)
+  }
+
+  const loadMore = async () => {
+    if (loadingMore || !nextCursor) {
+      return
+    }
+    setLoadingMore(true)
+    try {
+      await fetchPage(nextCursor)
+    } catch (error) {
+      console.log('Erro ao carregar mais imagens:', error)
+    }
+    setLoadingMore(false)
+  }
+
+  useEffect(() => {
+    reloadGallery()
+  }, [])
+
   const masonryItems = works.map((work, index) => ({
     key: work.id ?? `${work.title}-${index}`,
     data: work,
-  }));
+  }))
 
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
-  const onFinish = (values) => {
-    console.log('Valores editados:', values);
-  };
+  const onFinishFailed = errorInfo => console.log('Failed:', errorInfo)
+  const onFinish = values => console.log('Valores editados:', values)
+
 
   return (
     <section className="container-safira">
@@ -67,21 +95,29 @@ function SafiraCollection() {
         </div>
       </div>
       <main>
-      <ExpoArts
-        title={'Coleção Safira'}
-        loading={loading}
-        works={works}
-        masonryItems={masonryItems}
-        setLoading={setLoading}
-        onFinishFailed={onFinishFailed}
-        onFinish={onFinish}
-        reloadGallery={reloadGallery}
-        artworkYear={artworkYear}
-        endPoint={'safira-collection'}
-      />
+        <ExpoArts
+          title={'Coleção Safira'}
+          loading={loading}
+          works={works}
+          masonryItems={masonryItems}
+          setLoading={setLoading}
+          onFinishFailed={onFinishFailed}
+          onFinish={onFinish}
+          reloadGallery={reloadGallery}
+          artworkYear={artworkYear}
+          endPoint={'safira-collection'}
+        />
+
+        {nextCursor && (
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '32px 0' }}>
+            <Button onClick={loadMore} loading={loadingMore} icon={<ArrowDownOutlined />}>
+              Carregar mais
+            </Button>
+          </div>
+        )}
       </main>
       <Divider className='container-arts-styles__divider' />
-      <FooterCredits/>
+      <FooterCredits />
     </section>
   )
 }
