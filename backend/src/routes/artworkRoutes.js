@@ -12,13 +12,16 @@ import {
   getSafiraCollectionImage,
   postSafiraCollectionImage,
   updateSafiraColletctionImage,
-  deleteSafiraCollectionImage
+  deleteSafiraCollectionImage,
+  getCarouselImage,
+  postCarouselImage
 } from "../controllers/artworkController.js";
 
 const router = express.Router();
 
 // Obras da Home
 router.get('/', getImage);
+router.get('/', getCarouselImage);
 router.post('/', authMiddleware, upload.single('image'), createArtwork);
 
 // Biografia do artista

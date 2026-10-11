@@ -187,6 +187,7 @@ export const login = async (req, res) => {
     })
   } catch (error) {
     res.status(500).json({ message: 'error interno do servidor' })
+    console.error(error)
   }
 }
 
@@ -305,6 +306,36 @@ export const deleteSafiraCollectionImage = async (req, res) => {
   } catch (error) {
     res.status(401).json({
       message: 'Usuário não permitido a deletar obra'
+    })
+  }
+}
+
+export const getCarouselImage = async (req, res) => {
+  try {
+    const response = await prisma.home_carousel.findMany()
+  }catch(error) {
+    res.status(400).json({
+      message: 'Error ao carregar imagens'
+    })
+  }
+}
+
+export const postCarouselImage = async (req, res) => {
+  try {
+    const response = await prisma.home_carousel.create({
+      data: {
+        title: req.body.title,
+        description: req.body.description,
+        image_url: req.file.path,
+      },
+    });
+    res.status(200).json({
+      message: 'Dados inseridos com sucesso'
+    })
+  }catch(error) {
+    console.log(error)
+    res.status(401).json({
+      message: 'Usuário sem permissão pra alterar dados'
     })
   }
 }

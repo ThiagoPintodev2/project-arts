@@ -51,7 +51,14 @@ model hero_slide {
 model safira_collection {
   id          Int      @id @default(autoincrement())
   title       String   @db.VarChar(40)
-  description String  @db.VarChar(200)
+  description String   @db.VarChar(200)
   date        DateTime @db.Date
   image_url   String
+}
+
+model home_carousel {
+  id          Int     @id @default(autoincrement())
+  title       String  @db.VarChar(50)
+  description String  @db.VarChar(150)
+  image_url   String?
 }
