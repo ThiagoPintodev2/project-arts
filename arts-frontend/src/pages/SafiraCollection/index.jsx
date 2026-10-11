@@ -25,7 +25,6 @@ function SafiraCollection() {
   const [loadingMore, setLoadingMore] = useState(false)
 
   const fetchPage = async (cursor = null) => {
-    console.log(cursor)
     const { data } = await instance.get('/safira-collection', {
       params: { limit: PAGE_SIZE, ...(cursor && { cursor }) },
     })
@@ -68,7 +67,6 @@ function SafiraCollection() {
   const onFinishFailed = errorInfo => console.log('Failed:', errorInfo)
   const onFinish = values => console.log('Valores editados:', values)
 
-
   return (
     <section className="container-safira">
       <div className="page-inner">
@@ -107,7 +105,6 @@ function SafiraCollection() {
           artworkYear={artworkYear}
           endPoint={'safira-collection'}
         />
-
         {nextCursor && (
           <div style={{ display: 'flex', justifyContent: 'center', margin: '32px 0' }}>
             <Button onClick={loadMore} loading={loadingMore} icon={<ArrowDownOutlined />}>
