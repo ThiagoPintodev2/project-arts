@@ -18,7 +18,7 @@ function Gallery() {
   const [listGallery, loading, setLoading, , reloadGallery] = useAxios({
     instance,
     method: 'GET',
-    url: '/'
+    url: '/artworks'
   })
 
   const works = Array.isArray(listGallery) ? listGallery : [];

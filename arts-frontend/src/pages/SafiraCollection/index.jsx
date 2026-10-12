@@ -25,7 +25,7 @@ function SafiraCollection() {
   const [loadingMore, setLoadingMore] = useState(false)
 
   const fetchPage = async (cursor = null) => {
-    const { data } = await instance.get('/safira-collection', {
+    const { data } = await instance.get('/artworks/safira-collection', {
       params: { limit: PAGE_SIZE, ...(cursor && { cursor }) },
     })
     setWorks(prev => (cursor ? [...prev, ...data.items] : data.items))

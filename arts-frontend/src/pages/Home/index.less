@@ -19,9 +19,8 @@
   &__row {
     display: flex;
     align-items: center;
-    gap: 100px;
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-evenly;
 
     @media(max-width: @xl) {
       flex-direction: column;
@@ -33,6 +32,7 @@
   &__image {
     width: 50%;
     border-radius: 10px;
+    max-width: 560px;
 
     @media(max-width: @xl) {
       width: 100%;

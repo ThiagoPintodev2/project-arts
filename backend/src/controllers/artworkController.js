@@ -313,6 +313,7 @@ export const deleteSafiraCollectionImage = async (req, res) => {
 export const getCarouselImage = async (req, res) => {
   try {
     const response = await prisma.home_carousel.findMany()
+    res.json(response)
   }catch(error) {
     res.status(400).json({
       message: 'Error ao carregar imagens'
