@@ -340,3 +340,44 @@ export const postCarouselImage = async (req, res) => {
     })
   }
 }
+
+export const updateCarouselImage = async (req, res) => {
+  try {
+    const updated = await prisma.home_carousel.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        title: req.body.title,
+        description: req.body.description,
+      },
+    });
+
+    res.status(200).json({
+      message: 'Dados do carrossel alterados com sucesso',
+      artwork: updated,
+    });
+  } catch (error) {
+    res.status(404).json({
+      error: 'Imagem do carrossel não encontrada',
+    });
+  }
+}
+
+export const deleteCarouselImage = async (req, res) => {
+  try {
+    await prisma.home_carousel.delete({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+
+    res.status(200).json({
+      message: 'Imagem do carrossel excluída com sucesso',
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: 'Imagem do carrossel não encontrada',
+    });
+  }
+}

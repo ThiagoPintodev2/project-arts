@@ -6,7 +6,17 @@ import { Button, Form, Input } from 'antd';
 
 import './index.less'
 
-function ModalPostImage({ workLength, onPosted, loading, setLoading, endPoint }) {
+function postUrl(endPoint) {
+  if (endPoint === 'safira-collection') {
+    return '/artworks/safira-collection';
+  }
+  if (endPoint === '/carousel') {
+    return '/carousel';
+  }
+  return '/artworks';
+}
+
+function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endPoint }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const auth = useContext(authContext);
@@ -35,11 +45,10 @@ function ModalPostImage({ workLength, onPosted, loading, setLoading, endPoint })
     formData.append('date', values.date.format('YYYY-MM-DD'));
     formData.append('description', values.description);
     formData.append('image', file);
-
+    
     setLoading(true)
-
     try {
-      await instance.post(`${endPoint}`, formData, {
+      await instance.post(postUrl(endPoint), formData, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
       form.resetFields();
@@ -47,7 +56,9 @@ function ModalPostImage({ workLength, onPosted, loading, setLoading, endPoint })
       onPosted?.();
     } catch (error) {
       console.error(error);
-    }
+    } 
+
+    setLoading(false);
   };
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
@@ -61,7 +72,7 @@ function ModalPostImage({ workLength, onPosted, loading, setLoading, endPoint })
         disabled={endPoint === '/' ? limitReached : null}
         onClick={showModal}
       >
-        {endPoint === '/' && limitReached ? 'Limite máximo de Fotos Atingido' : 'Enviar Obra'}
+        {endPoint === '/' && limitReached ? 'Limite máximo de Fotos Atingido' : endPoint === '/carousel' ? 'Editar Carousel' : 'Enviar Obra'}
       </Button>
 
       <ArtModal

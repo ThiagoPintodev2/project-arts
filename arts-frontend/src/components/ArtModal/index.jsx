@@ -27,11 +27,11 @@ function ArtModal({
   useEffect(() => {
     if (!open || !work) return;
   
-    if (mode === 'edit-gallery') {
+    if (mode === 'edit-gallery' || mode === 'edit-carousel') {
       form.setFieldsValue({
         title: work.title,
         description: work.description,
-        date: dayjs(work.date),
+        ...(mode === 'edit-gallery' ? { date: dayjs(work.date) } : {}),
       });
     } else if (mode === 'edit-biography') {
       const item = Array.isArray(work) ? work[0] : work;
@@ -106,9 +106,15 @@ function ArtModal({
                   message: 'A biografia deve ter entre 500 e 1200 caracteres.',
                 }]
                 : []),
+              ...(mode === 'edit-carousel'
+                ? [{
+                  max: 150,
+                  message: 'A descrição deve ter no máximo 150 caracteres.',
+                }]
+                : []),
             ]}
           >
-            <TextArea maxLength={1200} minLength={500} showCount style={{ resize: 'none' }} rows={4} />
+            <TextArea maxLength={mode === 'edit-carousel' ? 150 : 1200} minLength={500} showCount style={{ resize: 'none' }} rows={4} />
           </Form.Item>
 
           {

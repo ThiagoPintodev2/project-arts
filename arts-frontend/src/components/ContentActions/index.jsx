@@ -5,7 +5,16 @@ import ArtModal from '../ArtModal';
 
 import { EditOutlined, DeleteOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { Dropdown, Space, Button, Form, Popconfirm, message } from 'antd';
-import axios from 'axios';
+
+function artworkUrl(endPoint, id) {
+  if (endPoint === 'safira-collection') {
+    return `/artworks/safira-collection/${id}`;
+  }
+  if (endPoint === '/carousel') {
+    return `/carousel/${id}`;
+  }
+  return `/artworks/${id}`;
+}
 
 function ContentActions({ work, onFinishFailed, endPoint = '', reloadGallery }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,49 +34,53 @@ function ContentActions({ work, onFinishFailed, endPoint = '', reloadGallery }) 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const cancel = e => {
-    messageApi.error('Click on No');
-  };
 
-  let updateEndPoint = ''
   const handleEdit = async (values) => {
+    const payload = {
+      title: values.title,
+      description: values.description,
+    };
+    if (endPoint !== '/carousel') {
+      payload.date = values.date.format('YYYY-MM-DD');
+    }
+
+    setLoading(true);
     try {
-      if(endPoint === 'safira-collection') {
-        updateEndPoint = 'safira-collection/'
-      } 
-      const response = await instance.put(`/${updateEndPoint}${selectedArtwork.id}`, {
-        title: values.title,
-        description: values.description,
-        date: values.date.format('YYYY-MM-DD'),
-      });
+      await instance.put(artworkUrl(endPoint, selectedArtwork.id), payload);
       message.open({
         type: 'success',
         content: 'Arte Editada com Sucesso',
       });
-      setLoading(true)
-      handleOk()
+      handleOk();
+      reloadGallery();
     } catch (error) {
       console.error('Erro ao atualizar obra:', error);
+      message.open({
+        type: 'error',
+        content: 'Não foi possível editar a obra',
+      });
     }
-    setLoading(false)
-    reloadGallery()
+    setLoading(false);
   };
 
-  const handleDelete = async (work) => {
-    if(endPoint === 'safira-collection') {
-      updateEndPoint = 'safira-collection/'
-    }
+  const handleDelete = async (item) => {
+    setLoading(true);
     try {
-      const response = await instance.delete(`/${updateEndPoint}${work.id}`)
+      await instance.delete(artworkUrl(endPoint, item.id));
       message.open({
         type: 'success',
         content: 'Arte Deletada com Sucesso',
-      })
+      });
+      reloadGallery();
     } catch (error) {
-      console.log('Erro ao deletar obra', error)
+      console.log('Erro ao deletar obra', error);
+      message.open({
+        type: 'error',
+        content: 'Não foi possível deletar a obra',
+      });
     }
-    reloadGallery()
-  }
+    setLoading(false);
+  };
 
   const items = [
     {
@@ -85,7 +98,6 @@ function ContentActions({ work, onFinishFailed, endPoint = '', reloadGallery }) 
           title="Deletar Obra"
           description="Deseja realmente deletar esta obra?"
           onConfirm={() => handleDelete(work)}
-          onCancel={cancel}
           loading={loading}
           okText="Sim"
           cancelText="Não"
@@ -125,7 +137,7 @@ function ContentActions({ work, onFinishFailed, endPoint = '', reloadGallery }) 
             onFinishFailed={onFinishFailed}
             work={selectedArtwork}
             form={form}
-            mode='edit-gallery'
+            mode={endPoint === '/carousel' ? 'edit-carousel' : 'edit-gallery'}
           />
         </>
       }

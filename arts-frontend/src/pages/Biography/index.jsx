@@ -16,7 +16,7 @@ function Biography() {
   const [data, loading, setLoading, , reloadBiography] = useAxios({
     instance,
     method: 'GET',
-    url: '/biography'
+    url: '/artworks/biography'
   })
 
   const normFile = e => {
@@ -33,7 +33,7 @@ function Biography() {
     formData.append('biography', values.description);
     setLoading(true)
     try {
-      await instance.put('/biography/1', formData, {
+      await instance.put('/artworks/biography/1', formData, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
       form.resetFields();
