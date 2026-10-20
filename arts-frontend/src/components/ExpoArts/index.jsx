@@ -20,7 +20,8 @@ function ExpoArts({
   onFinish,
   reloadGallery,
   endPoint,
-  artworkYear }) {
+  artworkYear,
+  worksQtt }) {
   const auth = useContext(authContext)
 
   return (
@@ -36,7 +37,7 @@ function ExpoArts({
             </p>
           ) : 
           <p className="container-gallery__count">
-            {works.length} {works.length === 1 ? 'obra' : 'obras'}
+            {works.length} de {worksQtt} {works.length === 1 ? 'obra' : 'obras'}
           </p>}
         </header>
 

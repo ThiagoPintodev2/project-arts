@@ -20,6 +20,7 @@ function artworkYear(date) {
 
 function SafiraCollection() {
   const [works, setWorks] = useState([])
+  const [worksQtt, setWorksQtt] = useState(0)
   const [nextCursor, setNextCursor] = useState(null)
   const [loading, setLoading] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
@@ -30,8 +31,8 @@ function SafiraCollection() {
     })
     setWorks(prev => (cursor ? [...prev, ...data.items] : data.items))
     setNextCursor(data.nextCursor)
+    setWorksQtt(data.total)
   }
-
   const reloadGallery = async () => {
     setLoading(true)
     try {
@@ -104,6 +105,7 @@ function SafiraCollection() {
           reloadGallery={reloadGallery}
           artworkYear={artworkYear}
           endPoint={'safira-collection'}
+          worksQtt={worksQtt}
         />
         {nextCursor && (
           <div style={{ display: 'flex', justifyContent: 'center', margin: '32px 0' }}>

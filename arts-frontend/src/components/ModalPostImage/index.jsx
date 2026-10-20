@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import instance from '../../helper/axios-instance';
 import authContext from '../../context/authContext';
 import ArtModal from '../ArtModal';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, message } from 'antd';
 
 import './index.less'
 
@@ -45,18 +45,23 @@ function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endP
     formData.append('date', values.date.format('YYYY-MM-DD'));
     formData.append('description', values.description);
     formData.append('image', file);
-    
+
     setLoading(true)
     try {
-      await instance.post(postUrl(endPoint), formData, {
+      const teste = await instance.post(postUrl(endPoint), formData, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
+      console.log(teste)
       form.resetFields();
       setIsModalOpen(false);
       onPosted?.();
     } catch (error) {
-      console.error(error);
-    } 
+      message.open({
+        type: 'error',
+        content: `${error.response?.data?.error}`
+      })
+
+    }
 
     setLoading(false);
   };

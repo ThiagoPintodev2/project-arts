@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import { prisma } from "../db.js";
 import jwt from 'jsonwebtoken';
-import { response } from 'express';
 
 export async function getArtworks(req, res) {
   try {
@@ -215,33 +214,37 @@ export const updateBiographyOfArtist = async (req, res) => {
 }
 
 export const getSafiraCollectionImage = async (req, res) => {
+
   try {
     const limit = Math.min(Number(req.query.limit) || 5, 30)
-    const cursor = req.query.cursor 
+    const cursor = req.query.cursor
 
-    const images = await prisma.safira_collection.findMany({
-      take: limit + 1, 
-      ...(cursor && {
-        cursor: { id: Number(cursor) }, 
-        skip: 1, 
+    const [images, total] = await Promise.all([
+      prisma.safira_collection.findMany({
+        take: limit + 1,
+        ...(cursor && {
+          cursor: { id: Number(cursor) },
+          skip: 1,
+        }),
+        orderBy: [
+          { date: 'desc' },
+          { id: 'desc' },
+        ],
       }),
-      orderBy: [
-        { date: 'desc' },
-        { id: 'desc' }, 
-      ],
-    })
-
+      prisma.safira_collection.count(),
+    ])
     const hasMore = images.length > limit
     const items = hasMore ? images.slice(0, limit) : images
     const nextCursor = hasMore ? items[items.length - 1].id : null
 
-    res.status(200).json({ items, nextCursor })
+    res.status(200).json({ items, nextCursor, total })
   } catch (error) {
     res.status(500).json({ error: "Não foi possível buscar as imagens" })
   }
 }
 
 export async function postSafiraCollectionImage(req, res) {
+  
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -262,8 +265,8 @@ export async function postSafiraCollectionImage(req, res) {
   } catch (error) {
     console.error(error);;
 
-    res.status(500).json({
-      error: "Erro ao criar obra",
+    res.status(400).json({
+      error: "Apenas imagens JPG, PNG e JPEG são permitidas",
     });
   }
 }
@@ -314,7 +317,7 @@ export const getCarouselImage = async (req, res) => {
   try {
     const response = await prisma.home_carousel.findMany()
     res.json(response)
-  }catch(error) {
+  } catch (error) {
     res.status(400).json({
       message: 'Error ao carregar imagens'
     })
@@ -333,7 +336,7 @@ export const postCarouselImage = async (req, res) => {
     res.status(200).json({
       message: 'Dados inseridos com sucesso'
     })
-  }catch(error) {
+  } catch (error) {
     console.log(error)
     res.status(401).json({
       message: 'Usuário sem permissão pra alterar dados'
