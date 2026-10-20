@@ -24,49 +24,51 @@ function Home() {
 
   return (
     <main>
-      <Carousel arrows autoplay autoplaySpeed={5000}>
-        {
-          slides.map((item) => (
-            <div className='home-carousel__slide' key={item.id}>
-              <div className='home-carousel__content'>
-                <div className='home-carousel__row'>
-                  <div className='home-carousel__media'>
-                    <Image className='home-carousel__image' src={item.image_url} alt={item.title || ''} />
-                    {auth.isAuthentication &&
-                      <div className='home-carousel__button'>
-                        <ContentActions
-                          work={item}
-                          endPoint={'/carousel'}
-                          loading={loading}
-                          setLoading={setLoading}
-                          reloadGallery={reloadCarousel}
-                        />
-                      </div>
-                    }
-                  </div>
+      <div className="home-carousel">
+        <Carousel arrows autoplay autoplaySpeed={5000}>
+          {
+            slides.map((item) => (
+              <div className='home-carousel__slide' key={item.id}>
+                <div className='home-carousel__content'>
+                  <div className='home-carousel__row'>
+                    <div className='home-carousel__media'>
+                      <Image className='home-carousel__image' src={item.image_url} alt={item.title || ''} />
+                      {auth.isAuthentication &&
+                        <div className='home-carousel__button'>
+                          <ContentActions
+                            work={item}
+                            endPoint={'/carousel'}
+                            loading={loading}
+                            setLoading={setLoading}
+                            reloadGallery={reloadCarousel}
+                          />
+                        </div>
+                      }
+                    </div>
 
-                  <div className='home-carousel__text'>
-                    <h2 className='home-carousel__title'>{item.title}</h2>
-                    <p className='home-carousel__description'>
-                      {item.description}
-                    </p>
+                    <div className='home-carousel__text'>
+                      <h2 className='home-carousel__title'>{item.title}</h2>
+                      <p className='home-carousel__description'>
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
-        }
-      </Carousel>
-      {auth.isAuthentication && (
-        <div className="home-carousel__post">
-          <ModalPostImage
-            endPoint="/carousel"
-            onPosted={reloadCarousel}
-            loading={loading}
-            setLoading={setLoading}
-          />
-        </div>
-      )}
+            ))
+          }
+        </Carousel>
+        {auth.isAuthentication && (
+          <div className="home-carousel__post">
+            <ModalPostImage
+              endPoint="/carousel"
+              onPosted={reloadCarousel}
+              loading={loading}
+              setLoading={setLoading}
+            />
+          </div>
+        )}
+      </div>
       <Gallery />
       <Footer />
     </main>

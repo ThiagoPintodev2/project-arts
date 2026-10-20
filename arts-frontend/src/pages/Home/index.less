@@ -1,13 +1,45 @@
 @import "../../theme/variable.less";
 
+.home-gallery .container-gallery {
+  margin-top: 0;
+}
+
 .home-carousel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 78% 110% at 94% 52%, fade(@colorEverGreen, 88%) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 95% at 4% 48%, fade(@colorHorizon, 58%) 0%, transparent 62%),
+    linear-gradient(255deg,
+      darken(@colorEverGreen, 10%) 0%,
+      @colorEverGreen 16%,
+      mix(@colorEverGreen, @colorDepth, 42%) 38%,
+      @colorDepth 58%,
+      mix(@colorDepth, @colorHorizon, 45%) 80%,
+      @colorHorizon 100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, fade(@colorAnchor, 42%) 0%, transparent 24%);
+  }
+
+  .slick-slider {
+    position: relative;
+    z-index: 2;
+  }
+
   &__slide {
     display: flex;
     align-items: center;
   }
 
   &__content {
-    margin-top: 100px;
+    margin-top: 50px;
     margin-bottom: 50px;
     display: flex;
     justify-content: center;
@@ -93,6 +125,8 @@
   }
 
   &__post {
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: center;
     margin: 0 var(--page-gutter) 32px;

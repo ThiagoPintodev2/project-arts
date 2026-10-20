@@ -35,7 +35,7 @@ function Gallery() {
   };
 
   return (
-    <div>
+    <div className="home-gallery">
       <ExpoArts
         title={'Exposião de artes'}
         loading={loading}
