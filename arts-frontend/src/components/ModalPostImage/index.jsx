@@ -42,27 +42,33 @@ function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endP
 
     const formData = new FormData();
     formData.append('title', values.title);
-    formData.append('date', values.date.format('YYYY-MM-DD'));
+    if (values.date) {
+      formData.append('date', values.date.format('YYYY-MM-DD'));
+    }
     formData.append('description', values.description);
-    formData.append('image', file);
+    if (file) {
+      formData.append('image', file);
+    }
 
     setLoading(true)
     try {
-      const teste = await instance.post(postUrl(endPoint), formData, {
+      await instance.post(postUrl(endPoint), formData, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
-      console.log(teste)
+
       form.resetFields();
       setIsModalOpen(false);
       onPosted?.();
+      message.open({
+        type:'success',
+        content: 'Infomrações adicionadas com sucesso'
+      })
     } catch (error) {
       message.open({
         type: 'error',
-        content: `${error.response?.data?.error}`
+        content: error.response?.data?.error || error.response?.data?.message || 'Não foi possível enviar'
       })
-
     }
-
     setLoading(false);
   };
   const onFinishFailed = errorInfo => {
@@ -70,6 +76,7 @@ function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endP
   };
 
   const limitReached = workLength === 8 || workLength >= 8;
+  const isCarousel = endPoint === '/carousel';
   return (
     <>
       <Button
@@ -77,11 +84,11 @@ function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endP
         disabled={endPoint === '/' ? limitReached : null}
         onClick={showModal}
       >
-        {endPoint === '/' && limitReached ? 'Limite máximo de Fotos Atingido' : endPoint === '/carousel' ? 'Editar Carousel' : 'Enviar Obra'}
+        {endPoint === '/' && limitReached ? 'Limite máximo de Fotos Atingido' : isCarousel ? 'Enviar ao Carrossel' : 'Enviar Obra'}
       </Button>
 
       <ArtModal
-        title="Informações da Obra"
+        title={isCarousel ? 'Informações do Carrossel' : 'Informações da Obra'}
         open={isModalOpen}
         onOk={() => form.submit()}
         onCancel={handleCancel}
@@ -93,7 +100,7 @@ function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endP
         onFinishFailed={onFinishFailed}
         form={form}
         normFile={normFile}
-        mode='create'
+        mode={isCarousel ? 'create-carousel' : 'create'}
       />
     </>
   );

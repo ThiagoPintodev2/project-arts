@@ -59,6 +59,6 @@ model safira_collection {
 model home_carousel {
   id          Int     @id @default(autoincrement())
   title       String  @db.VarChar(50)
-  description String  @db.VarChar(150)
+  description String  @db.VarChar(250)
   image_url   String?
 }

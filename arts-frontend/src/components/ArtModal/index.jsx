@@ -23,6 +23,7 @@ function ArtModal({
   work,
   mode = ''
 }) {
+  const isCarousel = mode === 'edit-carousel' || mode === 'create-carousel';
 
   useEffect(() => {
     if (!open || !work) return;
@@ -72,7 +73,7 @@ function ArtModal({
           <Form.Item
             label="Título:"
             name="title"
-            rules={[{ required: !mode === 'edit-biography' ? true : false, message: 'Por favor, inserir um título.' },
+            rules={[{ required: mode !== 'edit-biography', message: 'Por favor, inserir um título.' },
             ...(mode === 'edit-biography'
               ? [{
                 max: 50,
@@ -106,24 +107,24 @@ function ArtModal({
                   message: 'A biografia deve ter entre 500 e 1200 caracteres.',
                 }]
                 : []),
-              ...(mode === 'edit-carousel'
+              ...(isCarousel
                 ? [{
-                  max: 150,
-                  message: 'A descrição deve ter no máximo 150 caracteres.',
+                  max: 250,
+                  message: 'A descrição deve ter no máximo 250 caracteres.',
                 }]
                 : []),
             ]}
           >
-            <TextArea maxLength={mode === 'edit-carousel' ? 150 : 1200} minLength={500} showCount style={{ resize: 'none' }} rows={4} />
+            <TextArea maxLength={isCarousel ? 250 : 1200} minLength={isCarousel ? undefined : 500} showCount style={{ resize: 'none' }} rows={4} />
           </Form.Item>
 
           {
-            (mode === 'create' || mode === 'edit-biography') &&
+            (mode === 'create' || mode === 'create-carousel' || mode === 'edit-biography') &&
             <Form.Item
               name="image_url"
               valuePropName="fileList"
               getValueFromEvent={normFile}
-              rules={[{ required: !mode === 'edit-biography' ? true : false, message: 'Por favor, selecionar uma obra.' }]}
+              rules={[{ required: mode !== 'edit-biography', message: 'Por favor, selecionar uma obra.' }]}
             >
               <Upload
                 name="image"

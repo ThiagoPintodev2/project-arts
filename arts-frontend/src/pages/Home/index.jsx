@@ -6,6 +6,7 @@ import instance from '../../helper/axios-instance';
 import useAxios from '../../hook/user-axios';
 
 import ContentActions from '../../components/ContentActions';
+import ModalPostImage from '../../components/ModalPostImage';
 import { Carousel, Image } from 'antd';
 
 import './index.less'
@@ -56,6 +57,16 @@ function Home() {
           ))
         }
       </Carousel>
+      {auth.isAuthentication && (
+        <div className="home-carousel__post">
+          <ModalPostImage
+            endPoint="/carousel"
+            onPosted={reloadCarousel}
+            loading={loading}
+            setLoading={setLoading}
+          />
+        </div>
+      )}
       <Gallery />
       <Footer />
     </main>
