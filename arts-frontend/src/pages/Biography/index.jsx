@@ -3,10 +3,11 @@ import authContext from '../../context/authContext';
 import useAxios from '../../hook/user-axios';
 import instance from '../../helper/axios-instance';
 
-import { Button, Form } from 'antd'
+import { Button, Form, Divider } from 'antd'
 
 import './index.less'
 import ArtModal from '../../components/ArtModal';
+import FooterCredits from '../../components/FooterCredits';
 
 function Biography() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,35 +59,36 @@ function Biography() {
   };
 
   return (
-    <section className='container-biography'>
-      <div className="page-inner">
-        <header className="page-inner container-biography__heading">
-          <h2 className="container-biography__title">
-            Biografia
-          </h2>
-        </header>
+    <div>
+      <section className='container-biography'>
+        <div className="page-inner">
+          <header className="page-inner container-biography__heading">
+            <h2 className="container-biography__title">
+              Biografia
+            </h2>
+          </header>
 
-        <div className='container-biography__data-artist'>
-          {
-            data.map(item => (
+          <div className='container-biography__data-artist'>
+            {
+              data.map(item => (
+                <>
+                  <h3 className='container-biography__name-artist'>
+                    SPACE • {item.name}
+                    <div>
+                      <p className='container-biography__description'>{item.biography}</p>
+                    </div>
+                  </h3>
+                  <img className='container-biography__image' src={item.image_url} />
+                </>
+              ))
+            }
+          </div>
+          <div className='container-biography__btn'>
+            {
+              auth.isAuthentication &&
               <>
-                <h3 className='container-biography__name-artist'>
-                  SPACE • {item.name}
-                  <div>
-                    <p className='container-biography__description'>{item.biography}</p>
-                  </div>
-                </h3>
-                <img className='container-biography__image' src={item.image_url} />
-              </>
-            ))
-          }
-        </div>
-        <div className='container-biography__btn'>
-          {
-            auth.isAuthentication &&
-            <>
-              <Button onClick={showModal}>Alterar dados</Button>
-              <ArtModal
+                <Button onClick={showModal}>Alterar dados</Button>
+                <ArtModal
                   title="Editar Biografia"
                   open={isModalOpen}
                   onOk={() => form.submit()}
@@ -101,12 +103,15 @@ function Biography() {
                   work={data}
                   normFile={normFile}
                   mode='edit-biography'
-              />
-            </>
-          }
+                />
+              </>
+            }
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <Divider className='biography-divider'/>
+      <div><FooterCredits/></div>
+    </div>
   )
 }
 export default Biography;

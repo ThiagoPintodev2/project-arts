@@ -1,6 +1,7 @@
 const theme = {
   token: {
     colorEverGreen: "#2a5039",
+    colorPrimary: "#264559",
     colorPrimaryHover: "#3c617e",
     colorPrimaryActive: "#101a24",
     fontFamily: "Open Sans, sans-serif",
@@ -20,7 +21,6 @@ const theme = {
       borderRadius: 10,
       controlHeight: 42,
       fontWeight: 400,
-      colorPrimaryActive: "#6F472D"
     },
 
     Card: {

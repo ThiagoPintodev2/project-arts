@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import authContext from '../../../context/authContext';
 
 import { GiPadlock } from "react-icons/gi";
+import { TfiBrush } from "react-icons/tfi";
 
 import { Tabs, Drawer, Button } from 'antd';
 
@@ -20,10 +21,6 @@ const items = [
   {
     key: '/safira-collection',
     label: 'Coleção Safira'
-  },
-  {
-    key: 'contato',
-    label: 'Contato'
   },
   {
     key: '/auth/login',
@@ -63,7 +60,7 @@ function Header() {
   return (
     <header className='container-header'>
       <div className='page-inner container-header__menu-nav'>
-        <div className='container-header__logo'>CESAR ART</div>
+        <div className='container-header__logo'><TfiBrush />CESAR ART</div>
         <Tabs
           className='container-header__tabs'
           activeKey={activeKey}

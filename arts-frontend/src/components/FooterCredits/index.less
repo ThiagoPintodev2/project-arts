@@ -1,0 +1,43 @@
+@import '../../theme/variable.less';
+
+.container-arts-styles {
+  &__artist-name {
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: @xs) {
+      align-items: center;
+      text-align: center;
+    }
+  }
+  
+  &__social-media {
+    display: flex;
+    gap: 15px;
+
+    @media(max-width: @xl) {
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    @media (max-width: @xs) {
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  &__list {
+    padding-left: 10;
+    padding-inline-start: 20px;
+
+    @media (max-width: @xs) {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    color: inherit;
+  }
+}
