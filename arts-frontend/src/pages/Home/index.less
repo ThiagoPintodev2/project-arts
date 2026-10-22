@@ -51,9 +51,19 @@
   &__row {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 70%;
     justify-content: center;
-    gap: 200px;
+    gap: 100px;
+
+    @media(max-width: @xxl) {
+      gap: 100px;
+    }
+    @media(max-width: 1530px) {
+      width: 75%;
+    }
+    @media(max-width: 1470px) {
+      width: 93%;
+    }
 
     @media(max-width: @xl) {
       flex-direction: column;
