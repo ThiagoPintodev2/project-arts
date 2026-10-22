@@ -13,7 +13,7 @@ function FooterCredits() {
           <li className='container-arts-styles__social-media'>
             <a className='container-arts-styles__link' target='_blank' href="https://www.instagram.com/cspace_art/"><InstagramOutlined />&nbsp;cspace_art</a>
             <a className='container-arts-styles__link' target='_blank' href="https://www.tiktok.com/@cspace_art"><TikTokOutlined />&nbsp;cspace_art</a>
-            <div>
+            <div className='container-arts-styles__email-contact'>
             <MailOutlined />&nbsp;sspaceart@gmail.com
             </div>
           </li>
