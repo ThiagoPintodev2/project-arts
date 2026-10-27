@@ -71,7 +71,7 @@ function Biography() {
           <div className='container-biography__data-artist'>
             {
               data.map(item => (
-                <>
+                <div key={item.id} style={{display: 'flex', flexDirection: 'column', gap: 30}}>
                   <h3 className='container-biography__name-artist'>
                     SPACE • {item.name}
                     <div>
@@ -79,7 +79,7 @@ function Biography() {
                     </div>
                   </h3>
                   <img className='container-biography__image' src={item.image_url} />
-                </>
+                </div>
               ))
             }
           </div>
