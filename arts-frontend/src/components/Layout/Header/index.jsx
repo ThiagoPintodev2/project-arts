@@ -60,7 +60,7 @@ function Header() {
   return (
     <header className='container-header'>
       <div className='page-inner container-header__menu-nav'>
-        <div className='container-header__logo'><TfiBrush />CESAR ART</div>
+        <div className='container-header__logo'><TfiBrush />CSPACE_ART</div>
         <Tabs
           className='container-header__tabs'
           activeKey={activeKey}

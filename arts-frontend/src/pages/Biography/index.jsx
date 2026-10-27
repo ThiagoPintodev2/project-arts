@@ -68,10 +68,10 @@ function Biography() {
             </h2>
           </header>
 
-          <div className='container-biography__data-artist'>
+          <div>
             {
               data.map(item => (
-                <div key={item.id} style={{display: 'flex', flexDirection: 'column', gap: 30}}>
+                <div className='container-biography__data-artist' key={item.id} style={{display: 'flex', gap: 30}}>
                   <h3 className='container-biography__name-artist'>
                     SPACE • {item.name}
                     <div>
