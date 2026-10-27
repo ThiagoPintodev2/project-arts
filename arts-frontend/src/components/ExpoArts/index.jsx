@@ -19,6 +19,7 @@ function ExpoArts({
   onFinishFailed,
   onFinish,
   reloadGallery,
+  onPosted,
   endPoint,
   artworkYear,
   worksQtt }) {
@@ -102,7 +103,7 @@ function ExpoArts({
         </Row>
         {auth.isAuthentication && (
           <div className='container-gallery__post-image'>
-            <ModalPostImage endPoint={endPoint} workLength={works.length} onPosted={reloadGallery} loading={loading} setLoading={setLoading} />
+            <ModalPostImage endPoint={endPoint} workLength={works.length} onPosted={onPosted} />
           </div>
         )}
       </div>

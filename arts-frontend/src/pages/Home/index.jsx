@@ -65,6 +65,7 @@ function Home() {
               onPosted={reloadCarousel}
               loading={loading}
               setLoading={setLoading}
+              data={data}
             />
           </div>
         )}

@@ -15,11 +15,15 @@ function artworkYear(date) {
 
 function Gallery() {
 
-  const [listGallery, loading, setLoading, , reloadGallery] = useAxios({
+  const [listGallery, loading, setLoading, , reloadGallery, setListGallery] = useAxios({
     instance,
     method: 'GET',
     url: '/artworks'
   })
+
+  const addArtwork = (newArtwork) => {
+    setListGallery(prev => [...prev, newArtwork])
+  }
 
   const works = Array.isArray(listGallery) ? listGallery : [];
   const masonryItems = works.map((work, index) => ({
@@ -45,6 +49,7 @@ function Gallery() {
         onFinishFailed={onFinishFailed}
         onFinish={onFinish}
         reloadGallery={reloadGallery}
+        onPosted={addArtwork}
         artworkYear={artworkYear}
         endPoint={'/'}
       />

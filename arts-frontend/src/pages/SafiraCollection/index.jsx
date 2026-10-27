@@ -18,6 +18,8 @@ function artworkYear(date) {
   return `${day}/${month}/${year}`
 }
 
+const byNewest = (a, b) => b.date.localeCompare(a.date) || b.id - a.id
+
 function SafiraCollection() {
   const [works, setWorks] = useState([])
   const [worksQtt, setWorksQtt] = useState(0)
@@ -54,6 +56,17 @@ function SafiraCollection() {
       console.log('Erro ao carregar mais imagens:', error)
     }
     setLoadingMore(false)
+  }
+
+  const addArtwork = (newArtwork) => {
+    setWorksQtt(qtt => qtt + 1)
+    setWorks(prev => {
+      const last = prev[prev.length - 1]
+      if (nextCursor && last && byNewest(newArtwork, last) > 0) {
+        return prev
+      }
+      return [...prev, newArtwork].sort(byNewest)
+    })
   }
 
   useEffect(() => {
@@ -103,6 +116,7 @@ function SafiraCollection() {
           onFinishFailed={onFinishFailed}
           onFinish={onFinish}
           reloadGallery={reloadGallery}
+          onPosted={addArtwork}
           artworkYear={artworkYear}
           endPoint={'safira-collection'}
           worksQtt={worksQtt}

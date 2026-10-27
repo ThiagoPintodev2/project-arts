@@ -16,11 +16,11 @@ function postUrl(endPoint) {
   return '/artworks';
 }
 
-function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endPoint }) {
+function ModalPostImage({ workLength = null, onPosted, endPoint }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
   const auth = useContext(authContext);
-
   const normFile = e => {
     if (Array.isArray(e)) {
       return e;
@@ -50,18 +50,18 @@ function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endP
       formData.append('image', file);
     }
 
-    setLoading(true)
+    setSubmitting(true)
     try {
-      await instance.post(postUrl(endPoint), formData, {
+      const { data: created } = await instance.post(postUrl(endPoint), formData, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
 
       form.resetFields();
       setIsModalOpen(false);
-      onPosted?.();
+      onPosted?.(created);
       message.open({
         type:'success',
-        content: 'Infomrações adicionadas com sucesso'
+        content: 'Informações adicionadas com sucesso'
       })
     } catch (error) {
       message.open({
@@ -69,7 +69,7 @@ function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endP
         content: error.response?.data?.error || error.response?.data?.message || 'Não foi possível enviar'
       })
     }
-    setLoading(false);
+    setSubmitting(false);
   };
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
@@ -92,10 +92,10 @@ function ModalPostImage({ workLength = null, onPosted, loading, setLoading, endP
         open={isModalOpen}
         onOk={() => form.submit()}
         onCancel={handleCancel}
-        cancelButtonProps={loading}
-        okButtonProps={loading}
-        confirmLoading={loading}
-        disabled={loading}
+        cancelButtonProps={submitting}
+        okButtonProps={submitting}
+        confirmLoading={submitting}
+        disabled={submitting}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         form={form}
