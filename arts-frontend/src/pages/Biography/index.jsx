@@ -31,10 +31,14 @@ function Biography() {
     if (values.image_url?.length) {
       formData.append('image', values.image_url[0].originFileObj);
     }
+    if (values.title) {
+      formData.append('name', values.title);
+    }
     formData.append('biography', values.description);
     setLoading(true)
     try {
-      await instance.put('/artworks/biography/1', formData, {
+      const biographyId = Array.isArray(data) && data[0]?.id ? data[0].id : 1;
+      await instance.put(`/artworks/biography/${biographyId}`, formData, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
       form.resetFields();

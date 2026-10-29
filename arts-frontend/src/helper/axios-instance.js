@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8081'
+  baseURL:
+    import.meta.env.VITE_API_URL ??
+    (import.meta.env.DEV ? "http://localhost:8081" : "https://api.cspaceart.com.br"),
 });
 
 instance.interceptors.request.use((config) => {

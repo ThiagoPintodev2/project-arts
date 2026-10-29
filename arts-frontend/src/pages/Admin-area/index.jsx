@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'
 
 import authContext from '../../context/authContext';
+import instance from '../../helper/axios-instance';
 
 import { Button, Checkbox, Form, Input } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons'
@@ -19,9 +19,9 @@ function AdminArea() {
 
   const loginArtist = async (values) => {
     try {
-      const response = await axios({
+      const response = await instance({
         method: 'POST',
-        url: 'http://localhost:8081/auth/login',
+        url: '/auth/login',
         data: {
           email: values.email,
           password: values.password,

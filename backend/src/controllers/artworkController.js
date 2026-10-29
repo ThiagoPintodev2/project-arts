@@ -192,24 +192,46 @@ export const login = async (req, res) => {
 
 export const updateBiographyOfArtist = async (req, res) => {
   try {
-    const data = {
-      biography: req.body.biography,
-    };
+    const requestedId = Number(req.params.id);
+    const data = {};
+
+    if (req.body.biography != null) {
+      data.biography = req.body.biography;
+    }
+
+    if (req.body.name) {
+      data.name = req.body.name;
+    }
 
     if (req.file) {
       data.image_url = req.file.path;
     }
 
-    const response = await prisma.artist.update({
-      where: {
-        id: 1,
-      },
-      data,
-    });
+    let existing = Number.isInteger(requestedId)
+      ? await prisma.artist.findUnique({ where: { id: requestedId } })
+      : null;
 
-    res.json(response);
+    if (!existing) {
+      existing = await prisma.artist.findFirst();
+    }
+
+    const artist = existing
+      ? await prisma.artist.update({
+          where: { id: existing.id },
+          data,
+        })
+      : await prisma.artist.create({
+          data: {
+            name: req.body.name || "CSPACE_ART",
+            biography: req.body.biography || null,
+            image_url: req.file?.path || null,
+          },
+        });
+
+    res.json(artist);
   } catch (error) {
-    res.status(404).json({ message: 'Não foi possível atualizar os dados' })
+    console.error(error);
+    res.status(500).json({ message: "Não foi possível atualizar os dados" });
   }
 }
 
